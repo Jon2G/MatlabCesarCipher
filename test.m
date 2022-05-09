@@ -3,7 +3,7 @@ clear
 lm=LanguagesManager();
 disp(lm.Languages);
 reader=FileReader('./Cosmografia.txt');
-lang=lm.Languages(1);
+lang=lm.Languages(2);
 value=reader.readFileAndFilter(lang);
 cesar=CesarCipher(lang);
 value=cesar.cipher(value,777);

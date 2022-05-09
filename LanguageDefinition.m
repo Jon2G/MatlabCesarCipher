@@ -20,7 +20,7 @@ classdef LanguageDefinition < handle
         %text = Texto a filtrar
         %ftext = Texto filtrado
         function ftext=filterSpecialChars(obj,text)      
-           NEW_LINE=sprintf('%s',13);%Almacenar la representación en cadena de el salto de linea
+           %NEW_LINE=sprintf('%s',13);%Almacenar la representación en cadena de el salto de linea
            length=size(text); %Obtener la longitud de el arreglo de cadenas
            ftext=""; %Inicializar el resultado en cadena vacia
            for i=1:length %Por cada fila de texo
@@ -35,7 +35,7 @@ classdef LanguageDefinition < handle
                        ftext=append(ftext,letter); %Agregar a la cadena de texto de resultados
                    end %fin if         
                end %fin for
-               ftext=append(ftext,NEW_LINE); %Agregar a la cadena de texto de resultados un salto de linea
+               %ftext=append(ftext,NEW_LINE); %Agregar a la cadena de texto de resultados un salto de linea
            end %fin for
         end
 
