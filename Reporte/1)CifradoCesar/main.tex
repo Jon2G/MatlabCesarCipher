@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[journal,onecolumn]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
@@ -8,427 +8,145 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+% http://www.mathworks.com/matlabcentral/fileexchange/8015-m-code-latex-package
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode/mcode}
+
+
 \renewcommand\refname{REFERENCIAS}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Controles ciberseg IC\\
+\title{Implementación del cifrado Cesar en Matlab}
 
-\thanks{Identify applicable funding agency here. If none, delete this.}
-}
-
-\author{\IEEEauthorblockN{García García Jonthan Eduardo}
-\IEEEauthorblockA{
-\href{mailto:jgarciag1404@alumno.ipn.mx}{jgarciag1404@alumno.ipn.mx}
-}
-\and
-\IEEEauthorblockN{González Santiesteban Santiago}
-\IEEEauthorblockA{
-    \href{mailto:sgonzalezs1400@alumno.ipn.mx}{sgonzalezs1400@alumno.ipn.mx}
-}
-\and
-\IEEEauthorblockN{Jiménez Angeles Daniel Antonio}
-\IEEEauthorblockA{
-    \href{mailto:djimeneza1400@alumno.ipn.mx}{djimeneza1400@alumno.ipn.mx}
-}
-}
-
+\author{
+    García García Jonathan Eduardo\\
+    Instituto Politécnico Nacional\\
+    Escuela Superior de Ingeniería Mecánica y Eléctrica Unidad Culhuacán\\
+    Maestría en Ingeniería en Seguridad y Tecnologías de la información 
+    Ciudad de México, México\\
+    \href{jgarciag1404@alumno.ipn.mxm}{jgarciag1404@alumno.ipn.mx} 
+     }
 \maketitle
 
-\section{Resumen}
-La infraestructura de las redes de telecomunicaciones tienen una gran relevancia para el desarrollo y crecimiento del país; el transporte de los datos y la interconexión hacia las diversas redes de la que dependen sectores que brindan servicios esenciales para el país deben cobrar la importancia y permear en la conciencia de los actores sobre su importancia estratégica así como darse los recursos necesario para garantizar su operación ante amenazas y vulnerabilidades a la que está expuesta la infraestructura así como el costo asociado a los riesgos no atendidos que puede llegar a tener un impacto mucho mayor a la implementación de protección requerida. 
-
-En ese sentido las telecomunicaciones deben considerarse un tema de infraestructura crítica y con ello,  un plan de continuidad de negocio para cada uno de los actores puede garantizar en su conjunto la operación de la cual depdenden diversos sectores escenciales.
-
 \section{Introducción}
-El  Plan  de  Continuidad  del  Negocio,  tiene  como  objetivo  principal  proteger  los  procesos  críticos  del  negocio,   contra   desastres,   sean   estos   naturales,   humanos  o  tecnológicos,  y  evaluar  las    posibles  secuelas  que  se  puedan  tener,  como  pérdidas  de  tipo  financiero, operativo, productividad, etc., debido a la no disponibilidad de los recursos de la compañía. \\ El  Plan  de  Continuidad  del  Negocio,  es  esencial  para  la  continuidad  de    las  actividades  críticas  del  negocio,  en  el  caso  de  que  se  presentara  un  evento    inesperado  que  pudiera  comprometer  los  procesos  y  actividades   importantes   de   la   operación   de   la   compañía.
+\noindent
+La función esencial de la criptografía es mantener la privacidad de la
+comunicación, de forma que el mensaje sea inteligible tan solo para sus destinatarios.
+Esta necesidad de ocultar cierta información ha estado siempre presente en la vida del
+ser humano, datando el primer sistema criptográfico del que se tiene constancia del siglo
+V a.C. 
 
-\section{Fases de continuidad del plan de negocio.}
-El Plan de continuidad del negocio, se conforma de un conjunto de directrices y
-procedimientos plasmados en un documento técnico, para que cada entidad pueda
-tomar las acciones pertinentes con miras a la recuperación y restablecimiento de
-los servicios e infraestructuras de Telecomunicaciones interrumpidas por situaciones de desastre o emergencias ocurridas en cualquier instante dentro de las organizaciones.
-
-El análisis de impacto del negocio como parte del plan de continuidad del negocio,
-debe entenderse como un marco conceptual sobre el cual las entidades deben
-planear integralmente los alcances y objetivos, que permiten proteger la
-información, en todas sus áreas críticas.
-Las entidades deben establecer un análisis de impacto del negocio, que este
-alineado con el Plan General de Continuidad del Negocio de la Entidad; este debe
-tener una estrategia de continuidad de TI, que contenga los objetivos globales de la
-entidad, con respecto a las dimensiones de disponibilidad de datos, infraestructura
-tecnológica y recurso humano.
-
-Para desarrollar el plan de continuidad del negocio de TI se debe tener en cuenta:
-
+La palabra “criptografía” proviene
+etimológicamente del griego Kriptos (ocultar), Graphos
+(escritura), “ocultar la escritura”. En un sentido más
+amplio significa aplicar alguna técnica para hacer
+ininteligible un mensaje. La criptografía es una
+herramienta muy útil cuando se desea tener seguridad
+informática; puede ser también entendida como un
+medio para garantizar las propiedades de
+confidencialidad, integridad y disponibilidad de los
+recursos de un sistema. \\
+La criptologia consiste
+en permitir el intercambio de información a través de un
+medio de comunicación inseguro, de forma que, si la
+información es interceptada por un intruso, sea
+imposible su descifrado\\
+Esta ciencia está dividida en dos
+grandes ramas:
 \begin{itemize}
-    \item Diseñar una estrategia de continuidad de los servicios de Telecomunicaciones, que tenga como base la reducción del impacto de una interrupción en los servicios
-críticos del negocio, este debe estar difundido, aprobado y respaldado por los directivos de la entidad.
-    \item Realizar un análisis e identificación de recursos críticos de comunicaciones así como de TI vitales, de esta manera se establece una estrategia que genere prioridades en caso de
-presentarse una o varias situaciones que causen interrupciones.
-    \item Establecer procedimientos de control de cambio, que permita asegurar que
-el plan de continuidad, se encuentre actualizado y permita afrontar las
-amenazas que traen consigo las nuevas tendencias tecnológicas sin perder
-el alcance de los requerimientos de la Entidad.
-    \item Elaborar un plan de pruebas de continuidad de TI, que permita verificar y
-asegurar que los sistemas de TI, puedan ser recuperados de forma segura y efectiva, atendiendo y corrigiendo errores, que atenten contra la disponibilidad de las operaciones.
-    \item Realizar capacitaciones del plan de continuidad de Telecomunicaciones y análisis de impacto del negocio, a los entes o partes involucradas de la organización (Equipo de
-seguridad de sistemas de información de la entidad), para que conozcan cuáles son sus roles y responsabilidades en caso de incidentes o desastres. Es necesario verificar e incrementar el entrenamiento de acuerdo con los resultados de las pruebas de contingencia generadas
-dentro de la entidad.
-    \item Tanto el plan de continuidad de TI como el análisis de impacto del negocio
-deben estar disponibles apropiadamente dentro de la organización y en manos de los responsables de las áreas de TI quienes de forma segura deben garantizar su aplicabilidad en los momentos críticos, a su vez la entidad debe propender por un plan de sensibilización al interior de la
-misma con el propósito de indicar a todos sus miembros sobre la importancia de contar con un plan de continuidad y de análisis del negocio que van a garantizar el normal funcionamiento de las operaciones regulares en caso de presentarse problemas críticos en los sistemas de información y comunicaciones de la entidad.
+    \item La criptografía: ocupada del cifrado de
+    mensajes en clave y del diseño de criptosistemas
+    \item El criptoanálisis: que trata de descifrar los
+    mensajes en clave, rompiendo así el criptosistema.
 \end{itemize}
 
-\subsection{Metodología del análisis para el impacto del negocio.}
-
-La metodología del Análisis de Impacto del Negocio, consiste en definir una serie
-de pasos interactivos con el objeto de identificar claramente los impactos de las
-interrupciones y tomar decisiones respecto a aquellos procesos que se consideran
-críticos para la organización y que afectan directamente el negocio ante la
-ocurrencia de un desastre, estos pasos se muestran en esta ilustración:
-
-\begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[scale=.37]{image/Imagen5.png}
-    \caption{Indice de impacto}
-\label{fig0}
-    \end{center}
-\end{figure} 
-
-\subsection{Evaluación de impactos operacionales.}
-
-Teniendo en cuenta los elementos operacionales de la organización, se requiere
-evaluar el nivel de impacto de una interrupción dentro de la Entidad.
-El impacto operacional permite evaluar el nivel negativo de una interrupción en
-varios aspectos de las operaciones del negocio; el impacto se puede medir
-utilizando un esquema de valoración, con los siguientes niveles: A, B o C.
-
+\section{Cifrado Cesar}
+\noindent
+El cifrado de César es un cifrado de textos planos muy
+antiguo, se cree que Julio César lo utilizó para dirigir
+mensajes confidenciales a sus generales en campañas
+militares en el primer siglo antes de Cristo. Se basa en
+un cifrado mono alfabético.\\
+En criptografía, un cifrado César se clasifica como
+un cifrado por sustitución en el que el alfabeto en el
+texto plano se desplaza por un número fijo en el alfabeto
+\subsection{Ventajas}
 \begin{itemize}
-    \item \textbf{Nivel A:} La operación es crítica para el negocio. Una operación es crítica cuando al no contar con ésta, la función del negocio no puede realizarse.
-    \item \textbf{Nivel B:} La operación es una parte integral del negocio, sin ésta el negocio no podría operar normalmente, pero la función no es crítica.
-    \item \textbf{Nivel C:} La operación no es una parte integral del negocio.
+    \item Uno de los métodos más fáciles de usar en
+    criptografía y puede proporcionar una
+    seguridad mínima a la información.
+    \item Uno de los mejores métodos para usar
+    si el sistema no puede usar ninguna técnica de
+    codificación complicada
 \end{itemize}
 
-\subsection{Marco teórico}
-\textbf{RTO (Recovery Time Objective)}
-\\
-Es el máximo tiempo   permitido   que   un   proceso   puede   estar   detenido seguido a un evento desastroso. 
-\\
-\textbf{RPO  (Recovery  Point  Objective)}\\
-Identificar  si  para la recuperación del proceso que se haya visto afectado  se  necesita  disponer  de  la  información  que   se   tenía   justo   antes   de   que   sucediera   el   incidente, o si, por el contrario, se puede utilizar la información anterior.
-
-\subsection{Descripción de la empresa}
-
-\subsection{Misión de la empresa}
-
-\subsection{Visión de la empresa}
-
-\section{Evaluar los impactos en cinco escenarios de servicio dentro de la infraestructura de Telecomunicaciones}
-\subsection{Interrupciones de la cobertura}
-El impacto de las interrupciones de cobertura de la telecomunicación provoca que haya problemas en los distintos servicios que lo ocupan, por ejemplo en el siguiente mapa se muestra los estados que se verían afectados por la interrupción de cobertura afectando así a personas que pudieran tener alguna emergencia y necesitan del uso del celular para comunicarse así como algunas aplicaciones bancarias que se necesita el factor de autenticación mandando un SMS para un código de acceso dificultando su uso por lapsos de tiempo aquellas redes de telecomunicaciones, cuya interrupción o destrucción podría producir un serio impacto en la salud, seguridad o bienestar de la población o producir un serio impacto en el funcionamiento del gobierno o de la economía del país.
-Durante la crisis que vivimos actualmente a causa del conocido Coronavirus, las telecomunicaciones tienen un rol importante en diferentes ámbitos diarios.
-En el plano social, es obvio que cambian la manera las personas de afrontar la cuarentena impuesta tras el Estado de alarma.
-\begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[width=0.4\textwidth]{image/Imagen1.png}
-    \caption{Cobertura Altán}
-\label{fig1}
-    \end{center}
-\end{figure} 
-
-\subsection{Mal servicio al clientes}\label{AA}
-El impacto del mal servicio al cliente de la telecomunicación provoca que haya problemas varios usuarios decidan buscar más opciones de telefonía provocando que la empresa tenga disminución de ingresos lo cual indirectamente lleva al despido de personas ya que no son necesarias por la disminución de usuarios y generando multas a la empresa por el mal servicio proporcionado a la población, se observa que las llamadas telefónicas se intensificaron desde la pandemia del COVID-19 y que, además, se vuelve imperioso el poder gestionar estas llamadas de los equipos de venta desde las redes móviles, lo que permitirá a los equipos seguir con el teletrabajo o, incluso, gestionar estas llamadas desde cualquier otro sitio fuera de la oficina y un mal funcionamiento del servicio afectaria de manera crucial estos puntos.
-
-\subsection{Perdida de servicio}
-El impacto de la perdida de servicio en telecomunicación provoca que haya problemas en los distintos servicios que lo ocupan, esto sería un impacto serio ya que al no tener servicio estaría afectado a servicios externos como aplicaciones bancarias y al usuario en general ya que en casos de vida o muerte la falta de servicio seria un punto crítico para el resultado de este que al no
-tenerla disponible, puede ocasionar pérdidas de vida, serio o grave impacto en la salud, seguridad o economía de sus ciudadanos la extensión geográfica que se afecta en caso de un siniestro.
-
-\begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[width=0.3\textwidth]{image/Imagen2.png}
-    \caption{Indice de impacto}
-\label{fig1}
-    \end{center}
-\end{figure} 
-En la perdida de servicio de Altan afectaría los siguientes sectores principalmente:
-\begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[width=0.5\textwidth]{image/Imagen3.png}
-    \caption{Cobertura Altán}
-\label{fig1}
-    \end{center}
-\end{figure} 
-\\
-El sector de las telecomunicaciones no es únicamente partícipe de los retos sociales y económicos, sino que se postula como un actor clave ya que se volvío un punto importante en la actual pandemia de Covid19 ya que aumentaron las demandas de servicio por parte de los usuarios y la perdiada del mismo servicio seria un impacto critico para esos momentos criticos ya que al no tener posibilidad de una llamada o mensaje por falta de servicio seria de vida o muerte.
-\subsection{Quiebra de la empresa}
-
-El impacto de la quiebra de una empresa de telecomunicación provoca que haya problemas en muchos sectores de la población ya que muchas empresas contratan planes para sus empleados además de esto muchas aplicaciones necesitan el número telefónico del usuario para autenticación, así como el hecho de que también se les afecta por el hecho de buscar otra compañía que les ofrezca los beneficios que la actual compañía daba y que posiblemente no se ajusten a sus posibilidades y/o ingresos.\\
-\begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[width=0.3\textwidth]{image/Imagen4.png}
-    \caption{Quiebra}
-\label{fig1}
-    \end{center}
-\end{figure} 
-\\
-La noticia fue dada a conocer señalando que la empresa pidió rediseñar el plan y prorrogar la fecha a 2028. Esta solicitud debe ser aprobada por el gobierno federal, el IFT y publicarse en el Diario Oficial de la Federación (DOF). Hasta el momento, la empresa alcanzó una cobertura de red del 61,1 por ciento, equivalente a 68 millones de habitantes, mientras que el restante 30,71 por ciento, es decir, 34 millones de personas serán tocadas recién en siete años.
-\subsection{Pandemia(Covid19)}\label{SCM}
-El COVID-19 también trajo consigo una aceleración del paso de los Call Center a la nube. Con la pandemia del COVID-19 quedó claro que la telefonía fija, ante estos casos extraordinarios y ante las restricciones sanitarias impuestas, no funcionarían del todo debido a la imposibilidad de acudir a las oficinas. Si los Call Center deseaban estar preparados, deberían mover su infraestructura de negocio a la nube para así trabajar fácilmente desde cualquier lugar, con cualquier dispositivo conectado a Internet y que esto no reduzca su productividad.  
-Los centros de atención al cliente tuvieron que adaptarse a la rápida evolución de las normas de confinamiento en casa y otras restricciones que afectaron a los lugares de trabajo y a las plantillas de todo el mundo,las aplicaciones que están basadas en la infraestructura de telecomunicaciones amortiguo una de las principales características que impone el COVID el aislamiento.
-El impacto fue grande ya que la industria tuvo que adaptarse y evolucionar de manera acelerada par cumplir con las necesidades de la sociedad con este percanse y un impacto mayor hubiera provocado el no contar con las comunicaciones ya que muchas personas no habrian tenido la posibilidad del teletrabajo, escuela en linea y demas necesidades que habrian tenido un gran impacto en la poblacion.
-\section{Estandarés}
-\section{NIST Cybersecurity Framework}
-El NIST (Instituto Nacional de Estándares y Tecnología) de los
-Estados Unidos, posee un “Marco para la mejora de la Seguridad cibernética
-en infraestructuras críticas”, actualmente se encuentra disponible en su
-versión 1.1 publicado el 16 de Abril del 2018, el que ofrece, la posibilidad de
-implementar mejoras en lo que refiere a la Ciberseguridad, teniendo en
-cuenta, que existen riesgos específicos para cada tipo de Organización
-acorde a su función dentro de la estructura del Estado en sí, lo que se busca
-con la implementación es reducir y gestionar mejor los riesgos de la
-seguridad cibernética.\\
-Visto lo mencionado anteriormente, alineado con la problemática en el
-que se encontraban las Organizaciones Gubernamentales de los Estados
-Unidos de Norteamérica, en lo concerniente a la ciberseguridad ya que eran
-blancos constantes de los ciber atacantes, lo que demostraba la necesidad
-de una mejora continua en esta especificidad, es que nace el Marco de
-Trabajo de Ciberseguridad del NIST (National Institute of Standards and
-Technology), en el período de Barack Obama como presidente, a través de
-la Orden Ejecutiva Nro. 13.636 del 12 de febrero del 2013, la cual consta de
-12 secciones, siendo el foco principal la protección de las Infraestructuras
-Críticas de ese País, introduciéndolas dentro del ámbito de aplicación de la
-Seguridad Nacional y la Economía; ya que son la base de lo antes
-mencionado, definiéndolas como todo sistema y activos, ya sean físicos o
-virtuales, tan vitales que la incapacidad o destrucción de tales sistemas y
-activos tendría un impacto debilitante en la seguridad, la seguridad
-económica nacional, la opinión pública nacional. Salud o seguridad, o
-cualquier combinación de esos asuntos
-\subsection{Marco de trabajo}
-Las bases del Marco de Trabajo se pueden desprender directamente
-de la Orden Ejecutiva Nro. 13.636, siendo las siguientes:
+\subsection{Desventajas}
 \begin{itemize}
-    \item El centro del Marco es el conjunto de funciones que engloban la
-seguridad cibernética siendo comunes en todos los sectores de la
-Organizaciones.
-\item Definir una guía para el manejo de los riesgos de ciberseguridad
-como parte de la gestión de los procesos de la Organización.
-\item Enfocar en la aplicación de iniciadores de negocios para la totalidad
-de las actividades desarrolladas para la ciberseguridad.
-\item Ayudará a la Organización a alinear y priorizar los recursos y/o
-actividades de seguridad cibernética, teniendo en cuenta el negocio.
-\item El marco representa un documento dinámico, en constante mejora, en
-base a las recomendaciones y comentarios de las Organizaciones
-que lo implementen.
-\item Evitar la implementación de nuevos estándares, si ya se cuenta con
-una normativa que ya cubre o abarque los descritos en dicha orden
-ejecutiva.
+    \item Uso de estructura simple
+    \item Solo puede proporcionar seguridad mínima a la
+    información
+    \item La frecuencia del patrón de letras proporciona
+    una gran pista para descifrar el mensaje
+    completo.
 \end{itemize}
 
-\section{Controles de recuperación (RTO,RPO y MTD)}
+\section{Análisis de frecuencia}
+En que consiste el análisis de frecuencia, en cualquier
+idioma tenemos unas letras más comunes que otras.
+\begin{enumerate}
+    \item Se analiza la frecuencia de cada letra del idioma
+    español (inglés o portugués) y a cada letra se le da
+    un valor determinado en función de su frecuencia
+    de uso.
+    \item Se analizan diferentes textos en español (inglés o
+    portugués) para validar los valores anteriores 
+    \item Una vez obtenida esta tabla se lee
+    el texto cifrado  
+    \item Se reconoce el texto cifrado y se hace un análisis
+    de la frecuencia de aparición de los diferentes
+    símbolos. Se crea una nueva tabla con estos
+    resultados.
+    \item Los valores de ambas tablas se comparan luego por
+    su frecuencia y los símbolos del texto cifrado se
+    sustituyen por las letras del alfabeto
+    correspondientes.
+\end{enumerate}
 
-\begin{table}[h!]
-\begin{tabular}{|l|l|l|l|}
-\hline
-Vulnerabilidad   - Amenaza          & Probabilidad & Impacto & Valoración \\ \hline
-Terremotos & BAJO         & ALTO & BAJO\\ \hline
-Inundaciones & BAJO & ALTO & BAJO\\ \hline
-Tornados & BAJO & ALTO & BAJO\\ \hline
-Avalanchas & BAJO & ALTO & BAJO\\ \hline
-Tormentas eléctricas & BAJO & BAJO & BAJO\\ \hline
-Deslizamientos de   tierra & BAJO & ALTO & BAJO\\ \hline
-Error humano   & BAJO & BAJO    & BAJO\\ \hline
-Ataques a la red & BAJO & ALTO & BAJO\\ \hline
-Incendio & BAJO & ALTO & BAJO\\ \hline
-Fallas en el   antivirus & BAJO & MEDIO & BAJO\\ \hline
-Acceso no autorizado & BAJO & MEDIO   & ALTO\\ \hline
-Fallas del servicio eléctrico & BAJO & ALTO & BAJO\\ \hline
-Polución/humedad & BAJO & MEDIO & BAJO\\ \hline
-Químicos & BAJO & MEDIO & BAJO\\ \hline
-Robo de información & BAJO & MEDIO & BAJO\\ \hline
-Daño a las copias de   respaldo & BAJO & MEDIO & BAJO\\ \hline
-Fallas en las comunicaciones & MEDIO & ALTO & ALTO \\ \hline
-Caida de servidor especifico & MEDIO & MEDIO & MEDIO \\ \hline
-Daño en fisicos de discos duros & BAJO & BAJO & BAJO \\ \hline
-Falla en el los aplicativos & BAJO & MEDIO & MEDIO \\ \hline
-Espionaje corporativo & BAJO & ALTO & MEDIO \\ \hline
-Falta de experiencia & BAJO & MEDIO & BAJO \\ \hline
-Falta de mantenimiento & BAJO & MEDIO & BAJO \\ \hline
-Información confidencial & BAJO & ALTO & BAJO \\ \hline
-Falla trasmisión de datos & MEDIO & MEDIO & MEDIO \\ \hline
-Hurto & BAJO & ALTO & BAJO \\ \hline
-Falla estado de los cables & BAJO & ALTO & BAJO \\ \hline
-Falla en la red de datos & MEDIO & ALTO & ALTO \\ \hline
-Fallas en la red de voz & BAJO & ALTO & ALTO \\ \hline
-
-\end{tabular}
-\caption{Tiempos de recuperación de los servicios críticos frente a un evento de vulnerabilidad.}
-\end{table}
-
-\begin{table}[h!]
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Valoración} & RT en horas \\ \hline
-BAJO                & 72          \\ \hline
-MEDIO               & 12-24       \\ \hline
-ALTO                & Inmediato   \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{itemize}
-    \item \textbf{Fallas del servicio eléctrico}\\
-    Las temporadas invernales incrementan la probabilidad de fallos en el suministro eléctrico, y aun cuando hay contingencia y la disponibilidad del servicio casi siempre se preserva, hay casos en los que puede fallar o tardar tiempo en entrar la misma
-    \item \textbf{Falla en la trasmisión de datos}
-    Debido al incremento de
-aplicativo que consumen el
-canal de comunicación de la
-empresa, se ha notado
-momentos en los que
-aplicativos consumen recursos
-y debilitan las trasmisiones de
-datos corriendo el riesgo de
-que algun aplicativo consuma
-la totalidad de los recursos
-    \item \textbf{Fallas en las comunicaciones}\\
-    Debido a que la
-comunicación entre sedes
-esta subcontratada con
-terceros, estos tienen
-problemas sobre todo con las
-sedes A y B, en la primera
-porque el contratista sufre
-constantemente el robo de las
-fibras de comunicación y el
-segundo porque los
-constantes cortes de energía
-eléctrica en el municipio
-de Tubará, descontrolan los
-enlaces de comunicación
-suministrados por el proveedor
-\end{itemize}
-
-
-En muchos casos, algunos de las vulnerabilidades identificados en el análisis
-de riesgos y análisis de impacto se pueden mitigar con controles preventivos.
-Estos controles son apropiados para reducir costos en la gestión de riesgos
-ya que reducen el impacto y la probabilidad fácilmente. 
-Entre ellos tenemos:
-\begin{itemize}
-    \item Plantas generadoras de energía a base de gasolina que proveen por
-un buen tiempo.
-\item Sistemas de aire refrigerado para mantener controlada la
-temperatura del sitio a proteger.
-\item Sistemas contra incendios.
-\item Censores de agua y humedad en paredes y piso
-\item Almacenamiento de externo de copias de respaldo
-\item Apropiadas fuentes de poder eléctrico que proveen energía
-suficiente en caso de emergencia.
-\item Sistemas de aire refrigerado para mantener controlada la
-temperatura del sitio a proteger
-\item Detectores de humo y fuego.
-\end{itemize}
-
-Las razones por la cuales se debe escoger muy la estrategia que
-recuperación es porque será esta quien devolverá a la normalidad los
-diferentes recursos que se ven afectados en la eventualidad de un
-desastre.
-\\
-Los factores determinantes son: el costo, los datos a proteger, tipos de
-controles ya instalados, requerimientos adicionales.
-Como se puede verificar así en el documento de NIST SP 800 - 34:
-\begin{itemize}
-    \item Los sitios en frío son normalmente las instalaciones físicas con un
-espacio adecuado y la infraestructura (energía eléctrica, las
-conexiones de telecomunicaciones, y los controles del medio
-ambiente) para apoyar las actividades de recuperación del sistema de
-información.
-\item Los sitios en tibio están parcialmente equipados con espacios de
-oficinas que contienen algunos o todos los hardware del sistema, el
-software, las telecomunicaciones y las fuentes de energía necesarias
-para la recuperación.
-\item Sitios en caliente son centros de tamaño adecuado para soportar los
-requerimientos del sistema y configurado con el hardware del sistema
-necesario y actualizado, la infraestructura de apoyo, y personal de
-apoyo”
-\end{itemize}
-
-\subsection{Recovery Time Objective (RTO)}
-El RTO, Recovery Time Objective o Tiempo Objetivo de Recuperación, se refiere al tiempo máximo que una empresa define para recuperar sus procesos críticos, después de haber sido afectada por alguna una contingencia.
-\\
-Si ocurre algo que impida a la empresa operar de manera normal y afecte sus operaciones, habrá un tiempo en el que no podrán operar hasta volver a reanudar todos sus procesos. El RTO es ese tiempo desde el momento de la interrupción, hasta el reinicio de las actividades.
-
-\subsection{Recovery Point Objective (RPO)}
-Se relaciona con la copia de seguridad de los datos dentro del mismo escenario de un eventual desastre que afecte al negocio. Es el tiempo máximo que se establece desde la última copia de seguridad relacionado a la cantidad de datos que el negocio puede permitirse perder en caso de desastre.
-\\
-Cualquiera sea el servicio que ofrezcas a tus clientes, en caso de desastres este servicio y sus datos pueden perderse. Dentro del Plan de Continuidad del negocio y el de Recuperación ante Desastres, la empresa necesita saber cuánto tiempo puede permitirse el no disponer del servicio y la cantidad de información que se puede asumir como perdida, antes de recuperar la Continuidad Operacional.
-\\
-Con esto en mente, se definen las réplicas o copias de seguridad. Y el RPO será la cantidad de datos que el negocio puede permitirse perder, para seguir funcionando.
-
-\subsection{Maximum Tolerable Downtime (MTD)}
-Tiempo máximo tolerable de caída el cual nos determina el tiempo que puede estar caído un proceso antes de que se produzcan efectos desastrosos en la compañía y repercuta en el negocio.
-
-\subsection{Principales beneficios obtenidos de desarrollar un análisis de impacto sobre el negocio}
-\begin{itemize}
-    \item Se delimitan los procesos o actividades críticas dentro de la organización que afectan a nuestro negocio pudiendo descubrir actividades críticas que a priori no lo parecían.
-    \item Permite identificar vulnerabilidades de una organización en materia de continuidad de negocio.
-    \item En caso de disponer de planes de recuperación permitirá verificar si estos cubren las necesidades del negocio.
-    \item Propicia la implicación de un mayor número de áreas de la organización a la hora de implantar planes de continuidad, no solo al personal responsable de llevar a término este tipo de proyectos.
-    \item Reducción de costes ante posibles interrupciones del negocio.
-    \item Aporta información de gran valor a la hora de priorizar el desarrollo de otros proyectos en materia de continuidad de negocio.
-    \item Un mayor conocimiento de los procesos de negocio, contribuirá favorablemente a la mejora de la competitividad y seguridad en el mercado.
-    \item La información obtenida en el desarrollo del BIA es una base fundamental para implantar estrategias de recuperación eficientes.
-\end{itemize}
-
-
-\begin{table*}[h]
-\begin{tabular}{|l|l|l|l|c|c|}
-\hline
-\textbf{Recurso}   & \textbf{Descripción}                                                                                                                                   & \textbf{Requerimientos}                                                                                                                     & Responsable                                                               & RTO - Horas & RPO -Horas \\ \hline
-Telecomunicaciones & \begin{tabular}[c]{@{}l@{}}Es   la plataforma de comunicaciones \\ con la cual todos los sistemas se \\ interrelacionan automatizadamente\end{tabular} & \begin{tabular}[c]{@{}l@{}}Dispositivos Activos, redes, \\ servicios de proveedores,\\  instalaciones físicas, \\ electricidad\end{tabular} & \begin{tabular}[c]{@{}l@{}}Jefe de \\ Infraestructura\end{tabular}        & 3           & 0          \\ \hline
-Bases de datos     & \begin{tabular}[c]{@{}l@{}}Fuente de datos para todas las aplicaciones\\  operacionales\end{tabular}                                                   & \begin{tabular}[c]{@{}l@{}}Servidores, conexiones, \\ clientes, plataforma, \\ electricidad\end{tabular}                                    & DBA                                                                       & 3           & 0          \\ \hline
-Aplicaciones       & \begin{tabular}[c]{@{}l@{}}Programas de ofimática, y actividades \\ de soporte\end{tabular}                                                            & \begin{tabular}[c]{@{}l@{}}Computadores, electricidad,\\  plataforma, conexiones\end{tabular}                                               & Jefe de soporte                                                           & 3           & 0          \\ \hline
-Ejecutables ERP    & \begin{tabular}[c]{@{}l@{}}Equipo informático que administra el \\ servicio de ERP\end{tabular}                                                        & \begin{tabular}[c]{@{}l@{}}PC, Electricidad, \\ Conexión\end{tabular}                                                                       & \begin{tabular}[c]{@{}l@{}}Jefe de Plataforma\\  tecnológica\end{tabular} & 0,75        & 0          \\ \hline
-Terminal Server    & \begin{tabular}[c]{@{}l@{}}Equipo informático que administra el \\ servicio de terminal Server\end{tabular}                                            & \begin{tabular}[c]{@{}l@{}}PC, Electricidad,\\  Conexión\end{tabular}                                                                       & \begin{tabular}[c]{@{}l@{}}Jefe de Plataforma\\  tecnológica\end{tabular} & 0.75        & 2          \\ \hline
-Ejecutables ERP    & \begin{tabular}[c]{@{}l@{}}Equipo informático que administra el \\ servicio de ERP\end{tabular}                                                        & \begin{tabular}[c]{@{}l@{}}PC, Electricidad, \\ Conexión\end{tabular}                                                                       & \begin{tabular}[c]{@{}l@{}}Jefe de Plataforma \\ tecnológica\end{tabular} & 0.75        & 0          \\ \hline
-\end{tabular}
-\end{table*}
-
-\begin{figure}[h!]
-\centerline{\includegraphics[width=0.4\textwidth]{image/RPO.png}}
-\caption{Grafica de RPO con Recursos de Ti críticos.}
-\label{fig}
-\end{figure}
-
-\begin{figure}[h!]
-\centerline{\includegraphics[width=0.4\textwidth]{image/RTO.png}}
-\caption{Grafica de RPO con Recursos de Ti críticos.}
-\label{fig}
-\end{figure}
+\section{Desarrollo}
+Para este trabajo, se requirió programar una
+aplicación que pueda mostrar el resultado de un texto
+plano tras ser cifrado con el algoritmo de Cesar.\\
+Implementación función para cifrado y descifrado de una cadena de texto
+\lstinputlisting{code/cipher.m}
 \newpage
+Para el uso de este cifrado se implemento una interfaz grafica que cuenta con las siguientes funcionalidades:
+\begin{enumerate}
+    \item Selección de archivo de texto
+    \item Selección de idioma
+    \item Selección de llave de cifrado
+    \item Campo de texto para ingresar texto a tratar
+    \item Campo de texto donde se muestra el resultado del texto
+    \item Opciones para cifrar,Limpiar y descifrar el texto
+\end{enumerate}
 
-Para  tomar  una  decisión  acertada  y  razonable,  
-en  la  que  dos  criterios  solicitados  por  gerencia  
-tengan distintas opiniones es preferible y 
-recomendable  la  intervención  de  un  tercero  que  
-sea experto en el tema para de esta manera 
-solucionar el problema y llegar a un acuerdo. 
-Es recomendable que se realice frecuentemente 
-un  Análisis  de  Riesgos  del  Negocio  en  todas  sus  
-áreas, con el objetivo de mantenerse siempre alerta 
-ante cualquier circunstancia e implementar un 
-Plan  de  Continuidad  del  Negocio  como  medida  
-para estos casos.  
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\textwidth]{imgs/window1.jpg}
+    \caption{GUI para el cifrado}
+    \label{fig_sim}
+    \end{figure}
 
-\newpage
+
+\section{Conclusiones}
+El método de cifrado cesar es una de las formas mas simples que tenemos de cifrar un texto y sorprende la antigüedad del mismo, en tiempos donde el análisis de frecuencias no era una realidad debido a los alcances de los medios impresos este cifrado resultó medianamente efectivo pues recordemos que aún es susceptible a ataques de fuerza bruta o de ingeniería social para conocer la llave de desplazamiento
+Asimismo, se deberían plantear cuestiones que resulten, al menos, interesantes para
+realizar como trabajos futuros.
 \begin{thebibliography}{00}
-\bibitem{b1}Rusi, T. (2019, July). Applicability of Resilience Metrics in the Context of Telecommunications Services. In European Conference on Cyber Warfare and Security (pp. 845-XVIII). Academic Conferences International Limited.
-\bibitem{b2} Saadawi, T., \& Chamas, H. (2015). Securing telecommunications infrastructure against cyber attacks. Geo. J. Int'l Aff., 16, 58.
-\bibitem{b3} Shen, L. (2014). The NIST cybersecurity framework: Overview and potential impacts. Scitech Lawyer, 10(4), 16.
-\bibitem{b4}https://historicoupress.upaep.mx/index.php/opinion/editoriales/innovacion-y-tecnologia/6679-las-telecomunicaciones-en-tiempos-de-pandemia
-\bibitem{b5}https://www.comunycarse.com/es/la-importancia-de-las-redes-moviles-en-los-equipos-de-ventas-tras-el-covid-19/
-\bibitem{b6}https://medux.com/es/covid-19-que-supone-para-la-industria-de-las-telecomunicaciones/
-\bibitem{b7}https://www.altanredes.com/en/solutions-to-operators/our-coverage/
+\bibitem{b1}Gómez Hernández, S. (2010). Análisis de textos cifrados de los siglos XVI y XVII (Bachelor's thesis).
+\bibitem{b2} Paredes, G. G. (2006). Introducción a la Criptografía.
 \end{thebibliography} 
 
 \end{document}
