@@ -41,10 +41,6 @@ classdef LanguagesManager < handle
 
         function RemoveAt(obj,index)
             obj.Languages(index)=[];
-            obj.Reindex();
-        end
-        
-        function Reindex(obj)
             for i=1:size(obj.Languages)
                 obj.Languages(i).Index=i;
             end

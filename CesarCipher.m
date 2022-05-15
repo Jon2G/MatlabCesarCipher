@@ -42,35 +42,29 @@ classdef CesarCipher< handle
        %offset = llave para el cifrado
        function rText=normalizedCipher(obj,text,offset)
            rText=""; %Variable de resultado inicializada en cadena vacia
-           ASCII_LENGHT=size(obj.LanguageDefinition.Alphabet,1); % Tamaño del alfabeto reducido
-           NEW_LINE=obj.LanguageDefinition.Alphabet(mod(13+offset,ASCII_LENGHT)); %Caracter de salto de linea cifrado          
-           length=size(text,1);  %Longuitud del texto a cifrar
-           for i=1:length % por cada fila del texto
-               row=text{i}; %recuperar la fila de texto en la posición i
-               row=convertStringsToChars(row); %convierte la cadena de texto a un arreglo de caracterés iterable
-               row_lenght=size(row,2); %longitud de caracterés
-               for j=1:row_lenght %por cada caractér
-                   letter=row(j); %obtener el caractér en la posición j
-                   if(offset>0) %si se esta cifrando el offset es positivo
-                       letter=obj.LanguageDefinition.normalizeChar(letter); % normalizar el texto (puede que no este normalizado)
-                       if(letter<=0)
-                           continue;
-                       end
+           ASCII_LENGHT=size(obj.LanguageDefinition.Alphabet,2); % Tamaño del alfabeto reducido              
+           if(iscell(text))
+                text=text{1};
+            end
+           text=convertStringsToChars(text); %convierte la cadena de texto a un arreglo de caracterés iterable
+           length=size(text,2);  %Longuitud del texto a cifrar
+           for j=1:length %por cada caractér
+               letter=text(j); %obtener el caractér en la posición j
+               if(offset>0) %si se esta cifrando el offset es positivo
+                   letter=obj.LanguageDefinition.normalizeChar(letter); % normalizar el texto (puede que no este normalizado)
+                   if(letter<=0)
+                       continue;
                    end
-                   %encontrar la letra que corresponde en el alfabeto
-                   %reducido y obtener la posición en base cero
-                   letter=find(ismember(obj.LanguageDefinition.Alphabet,letter),1)-1;
-                   letter=letter+offset; %agregar el desplazamiento de la llave de cifrado
-                   letter=mod(letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
-                   letter=obj.LanguageDefinition.Alphabet(letter+1); %obtener la letra en la nueva posición del alfabeto cifrado base 1
-                   rText=append(rText,letter); %agregar la letra al resultado del texto cifrado
                end
-               if((offset>0) && (i<length)) %si se esta cifrando y aún no estamos en la utlima fila agregar un salto de linea
-                rText=append(rText,NEW_LINE);
-               end
-           end
-       end
-      
+               %encontrar la letra que corresponde en el alfabeto
+               %reducido y obtener la posición en base cero
+               letter=obj.LanguageDefinition.indexOf(letter)-1;
+               letter=letter+offset; %agregar el desplazamiento de la llave de cifrado
+               letter=mod(letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
+               letter=obj.LanguageDefinition.Alphabet(letter+1).Letter; %obtener la letra en la nueva posición del alfabeto cifrado base 1
+               rText=append(rText,letter); %agregar la letra al resultado del texto cifrado
+           end        
+       end     
    end
 end
 

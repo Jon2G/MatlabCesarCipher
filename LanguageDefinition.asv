@@ -82,12 +82,11 @@ classdef LanguageDefinition < handle
 
         function i=indexOf(obj,letter)
             for i=1:size(obj.Alphabet,2)
+                letter=obj.Alphabet(i);
                 if(iscell(obj.Alphabet))
-                    char=obj.Alphabet{i};
-                else
-                    char=obj.Alphabet(i);
+                    continue;
                 end
-                if(char.Letter==letter)
+                if(obj.Alphabet(i).Letter==letter)
                     return;
                 end
             end
@@ -99,12 +98,7 @@ classdef LanguageDefinition < handle
             file=FileWriter(path);
             file.Clear();
             for i=1:size(obj.Alphabet,2)
-                if(iscell(obj.Alphabet))
-                     letter=obj.Alphabet{i};
-                else
-                     letter=obj.Alphabet(i);
-                end
-               
+                letter=obj.Alphabet(i);
                 file.writeChar(letter.Letter);
                 file.writeChar('@');
                 file.writeDouble(letter.StandardFrecuency);
