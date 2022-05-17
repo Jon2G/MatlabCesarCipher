@@ -72,7 +72,7 @@ classdef LanguageDefinition < handle
             index=obj.indexOf(letter); 
              % Si la letra esta en el rango
             if(index<=0)
-                disp("Letra invalida:["+letter+"]");
+                %disp("Letra invalida:["+letter+"]");
                  nchar=0; %la letra es invalida
                 return; %Salida de la función
             end

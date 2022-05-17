@@ -24,7 +24,7 @@ classdef Chiper< handle
                character=obj.LanguageDefinition.Alphabet(i);
                Map=[Map;LanguageCharacter(i,character.Letter,0)];
            end
-
+           textLenght=0;
            y=zeros(1,LENGHT,'double');
            x=zeros(1,LENGHT,'single');
            xtick=cell(1,LENGHT);          
@@ -39,12 +39,13 @@ classdef Chiper< handle
                if(index<0)
                    continue;
                end
+               textLenght=textLenght+1;
                character=Map(index);
                character.Count=character.Count+1;
            end
 
            for i=1:LENGHT
-               Map(i).StandardFrecuency=Map(i).Count/LENGHT;
+               Map(i).StandardFrecuency=Map(i).Count/textLenght*100;
                y(i)=Map(i).StandardFrecuency;
                x(i)=i;
                xtick{i}=Map(i).Letter;
