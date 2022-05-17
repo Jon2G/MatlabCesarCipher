@@ -1,4 +1,4 @@
-classdef Chiper< handle
+classdef (Abstract) Chiper< handle
     %CHIPER Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -19,15 +19,20 @@ classdef Chiper< handle
             LENGHT=size(obj.LanguageDefinition.Alphabet,2); % Tamaño del alfabeto reducido  
 
            Map =[];
-
+           %Copiar todos los caracteres del alfabeto en un nuevo arreglo
            for i=1:LENGHT
                character=obj.LanguageDefinition.Alphabet(i);
-               Map=[Map;LanguageCharacter(i,character.Letter,0)];
+               character=LanguageCharacter(i,character.Letter,0);
+               character.Count=1;
+               Map=[Map;character];
            end
+
            textLenght=0;
+           %inicializar vectores en ceros para los valores x,y
            y=zeros(1,LENGHT,'double');
            x=zeros(1,LENGHT,'single');
-           xtick=cell(1,LENGHT);          
+           xtick=cell(1,LENGHT);   
+
            if(iscell(text))
                 text=text{1};
             end
@@ -39,16 +44,17 @@ classdef Chiper< handle
                if(index<0)
                    continue;
                end
+               %contador de caracteres
                textLenght=textLenght+1;
-               character=Map(index);
-               character.Count=character.Count+1;
+               character=Map(index); %obtener el caracter el el alfabeto
+               character.Count=character.Count+1; %Incrementar el numero de aparicioness
            end
 
            for i=1:LENGHT
-               Map(i).StandardFrecuency=Map(i).Count/textLenght*100;
-               y(i)=Map(i).StandardFrecuency;
-               x(i)=i;
-               xtick{i}=Map(i).Letter;
+               Map(i).StandardFrecuency=Map(i).Count/textLenght*100; %calcular la frecuencia de cada letra del alfabeto
+               y(i)=Map(i).StandardFrecuency; %guardar la frecuencua en y
+               x(i)=i; %guardar la posicion en x
+               xtick{i}=Map(i).Letter; % caracter de la letra
            end
            plotData=PlotData(x,y);
            plotData.XTickLabels=xtick;
