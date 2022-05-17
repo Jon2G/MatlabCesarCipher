@@ -82,11 +82,7 @@ classdef LanguageDefinition < handle
 
         function i=indexOf(obj,letter)
             for i=1:size(obj.Alphabet,2)
-                if(iscell(obj.Alphabet))
-                    char=obj.Alphabet{i};
-                else
-                    char=obj.Alphabet(i);
-                end
+                char=obj.getCharacterAt(i);
                 if(char.Letter==letter)
                     return;
                 end
@@ -99,12 +95,7 @@ classdef LanguageDefinition < handle
             file=FileWriter(path);
             file.Clear();
             for i=1:size(obj.Alphabet,2)
-                if(iscell(obj.Alphabet))
-                     letter=obj.Alphabet{i};
-                else
-                     letter=obj.Alphabet(i);
-                end
-               
+                letter=obj.getCharacterAt(i);               
                 file.writeChar(letter.Letter);
                 file.writeChar('@');
                 file.writeDouble(letter.StandardFrecuency);
@@ -120,12 +111,33 @@ classdef LanguageDefinition < handle
 
         function Reindex(obj)
             for i=1:size(obj.Alphabet,2)
-                if(iscell(obj.Alphabet))
-                    obj.Alphabet{i}.Index=i;
-                    continue;
-                end
-                obj.Alphabet(i).Index=i;
+                char=obj.getCharacterAt(i);
+                char.Index=i;
             end
+        end
+
+        function char=getCharacterAt(obj,index)
+            if(iscell(obj.Alphabet))
+                 char=obj.Alphabet{index};
+                 return;
+            end
+            char=obj.Alphabet(index);
+        end
+
+        function plotData=FrequencyPlot(obj)
+            length=size(obj.Alphabet,2);
+            x=zeros(1,length,'single');
+            xtick=cell(1,length);
+            y=zeros(1,length,'double');
+            for i=1:length
+                char=obj.getCharacterAt(i);
+                y(i)=char.StandardFrecuency;
+                xtick{i}=char.Letter;
+                x(i)=i;
+            end
+            plotData=PlotData(x,y);
+            plotData.XTickLabels=xtick;
+            plotData.Title="Histrograma de frecuencias: "+obj.Name;
         end
     end
 end
