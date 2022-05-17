@@ -7,6 +7,9 @@ classdef PlotData
         y=[],
         XTickLabels={},
         Title='Plot',
+        Xlabel='x',
+        Ylabel='y',
+        Legends={}
     end
 
     methods

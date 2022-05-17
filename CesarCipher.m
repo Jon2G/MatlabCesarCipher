@@ -1,13 +1,10 @@
-classdef CesarCipher< handle
-   properties
-       %Define un alfabeto simplificado en letras mayusculas de la A-Z
-       %incluyendo la Ñ  y el espacio
-       LanguageDefinition;
-   end
+classdef CesarCipher< Chiper
+
    methods
 
        function obj=CesarCipher(languageDefinition)
-           obj.LanguageDefinition=languageDefinition;
+           % Call Character constructor
+            obj@Chiper(languageDefinition); 
        end
 
        %Funcion para cifrar texto
@@ -52,6 +49,7 @@ classdef CesarCipher< handle
                letter=text(j); %obtener el caractér en la posición j
                if(offset>0) %si se esta cifrando el offset es positivo
                    letter=obj.LanguageDefinition.normalizeChar(letter); % normalizar el texto (puede que no este normalizado)
+                   text(j)=letter;
                    if(letter<=0)
                        continue;
                    end
@@ -63,7 +61,8 @@ classdef CesarCipher< handle
                letter=mod(letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
                letter=obj.LanguageDefinition.Alphabet(letter+1).Letter; %obtener la letra en la nueva posición del alfabeto cifrado base 1
                rText=append(rText,letter); %agregar la letra al resultado del texto cifrado
-           end        
+           end      
+           rText={text,rText(1)};
        end     
    end
 end
