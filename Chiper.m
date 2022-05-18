@@ -23,7 +23,7 @@ classdef (Abstract) Chiper< handle
            for i=1:LENGHT
                character=obj.LanguageDefinition.Alphabet(i);
                character=LanguageCharacter(i,character.Letter,0);
-               character.Count=1;
+               character.Count=0;
                Map=[Map;character];
            end
 
@@ -51,7 +51,7 @@ classdef (Abstract) Chiper< handle
            end
 
            for i=1:LENGHT
-               Map(i).StandardFrecuency=Map(i).Count/textLenght*100; %calcular la frecuencia de cada letra del alfabeto
+               Map(i).StandardFrecuency=Map(i).Count/textLenght; %calcular la frecuencia de cada letra del alfabeto
                y(i)=Map(i).StandardFrecuency; %guardar la frecuencua en y
                x(i)=i; %guardar la posicion en x
                xtick{i}=Map(i).Letter; % caracter de la letra

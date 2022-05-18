@@ -131,7 +131,7 @@ classdef LanguageDefinition < handle
             y=zeros(1,length,'double');
             for i=1:length
                 char=obj.getCharacterAt(i);
-                y(i)=char.StandardFrecuency;
+                y(i)=char.StandardFrecuency/100;
                 xtick{i}=char.Letter;
                 x(i)=i;
             end
