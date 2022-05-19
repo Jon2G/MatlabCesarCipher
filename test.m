@@ -4,12 +4,12 @@ lm=LanguagesManager();
 disp(lm.Languages);
 reader=FileReader('./Cosmografia.txt');
 lang=lm.Languages(2);
-value=reader.readFileAndFilter(lang);
+value=reader.readFileAndFilter(lang); %"MONEY MONEY MONEY";
 cesar=Vigenere(lang);
-value=cesar.cipher(value,'ABBA');
-disp(value);
-value=cesar.decipher(value,'ABBA');
-disp(value);
+cesar.cipher(value,"ABBA");
+disp(cesar.ResultText);
+cesar.decipher(cesar.ResultText,"ABBA");
+disp(cesar.ResultText);
 
 %Notas
 %arreglo =[];

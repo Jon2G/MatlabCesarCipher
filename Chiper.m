@@ -6,6 +6,13 @@ classdef (Abstract) Chiper< handle
        %Define un alfabeto simplificado en letras mayusculas de la A-Z
        %incluyendo la Ñ  y el espacio
        LanguageDefinition;
+       BaseText;
+       ResultText;
+       ReadIndex;
+       Key;
+       Encrypting;
+       Letter;
+
    end
    properties (Abstract)
        IsNumeric,
@@ -13,10 +20,51 @@ classdef (Abstract) Chiper< handle
    end
 
    methods (Abstract)
-       rText=normalizedCipher(obj,text,key);
+       normalizedCipher(obj);
    end
 
     methods
+
+        function reset(obj,text,key,encrypting)
+            if(iscell(text))
+                rText='';
+                for i=1:size(text,1)
+                    row=text(i);
+                    row=convertStringsToChars(row);
+                    rText=append(rText,row);
+                end
+                text=string(rText);
+            end
+            text=convertStringsToChars(text); %convierte la cadena de texto a un arreglo de caracterés iterable
+            obj.BaseText=text;
+            obj.ResultText="";
+            obj.Key=key;
+            obj.ReadIndex=1;
+            obj.Encrypting=encrypting;
+        end
+
+        function has_next=Next(obj)         
+            if(obj.ReadIndex<=size(obj.BaseText,2))
+                has_next=true;
+                obj.Letter=obj.BaseText(obj.ReadIndex); %obtener el caractér en la posición ReadIndex
+                if(obj.Encrypting) %si se esta cifrando el offset es positivo
+                   obj.Letter=obj.LanguageDefinition.normalizeChar(obj.Letter); % normalizar el texto (puede que no este normalizado)
+                   if(obj.Letter<=0)
+                       obj.BaseText(obj.ReadIndex)=[];
+                       obj.Letter=-1;
+                       return;
+                   end
+                   obj.BaseText(obj.ReadIndex)=obj.Letter;
+                end
+                obj.ReadIndex=obj.ReadIndex+1;
+                %encontrar la letra que corresponde en el alfabeto
+                %reducido y obtener la posición en base cero
+                obj.Letter=obj.LanguageDefinition.indexOf(obj.Letter)-1;
+                return;
+            end
+            has_next=false;      
+        end
+
        %Funcion para cifrar texto
        %obj = instancia de esta clase
        %plainText = texto a cifrar
@@ -24,8 +72,9 @@ classdef (Abstract) Chiper< handle
        %filterSpecialChars (true/false) = filtrar caracteres especiales del
        %texto y utilizar alfabeto reducido (false) ó todo el conjunto de
        %caracteres ASCII (true)
-       function cipherText = cipher(obj,plainText,offsetKey)
-           cipherText=obj.normalizedCipher(plainText,offsetKey);
+       function cipher(obj,text,key)
+           obj.reset(text,key,true);
+           obj.normalizedCipher();
        end
 
        %Funcion para descifrar texto
@@ -35,11 +84,9 @@ classdef (Abstract) Chiper< handle
        %filterSpecialChars (true/false) = filtrar caracteres especiales del
        %texto y utilizar alfabeto reducido (false) ó todo el conjunto de
        %caracteres ASCII (true)
-       function plainText=decipher(obj,cipherText,offsetKey)
-           %la llave de cifrado debe ser negativa para el descifrado
-           invertedOffset=-1*offsetKey;
-           %si se utilizará el alfabeto reducido llamar a normalizedCipher
-           plainText=obj.normalizedCipher(cipherText,invertedOffset);
+       function decipher(obj,text,key)
+           obj.reset(text,key,false);
+           obj.normalizedCipher();
        end
        
         function obj=Chiper(languageDefinition)

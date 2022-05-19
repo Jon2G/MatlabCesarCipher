@@ -11,37 +11,31 @@ classdef CesarCipher< Chiper
             obj@Chiper(languageDefinition); 
        end
 
+
+
        %Función para cifrar el texto utilizando el alfabeto reducido
        %reducido especificado mas arriba
        %obj = Instancia de la clase
        %text = Texto a cifrar
        %offset = llave para el cifrado
-       function rText=normalizedCipher(obj,text,key)
-           rText=""; %Variable de resultado inicializada en cadena vacia
-           ASCII_LENGHT=size(obj.LanguageDefinition.Alphabet,2); % Tamaño del alfabeto reducido              
-           if(iscell(text))
-                text=text{1};
-            end
-           text=convertStringsToChars(text); %convierte la cadena de texto a un arreglo de caracterés iterable
-           length=size(text,2);  %Longuitud del texto a cifrar
-           for j=1:length %por cada caractér
-               letter=text(j); %obtener el caractér en la posición j
-               if(key>0) %si se esta cifrando el offset es positivo
-                   letter=obj.LanguageDefinition.normalizeChar(letter); % normalizar el texto (puede que no este normalizado)
-                   text(j)=letter;
-                   if(letter<=0)
-                       continue;
-                   end
+       function normalizedCipher(obj)
+
+           if(~obj.Encrypting)
+               %la llave de cifrado debe ser negativa para el descifrado
+               obj.Key=-1*obj.Key;
+           end
+           
+           ASCII_LENGHT=size(obj.LanguageDefinition.Alphabet,2); % Tamaño del alfabeto reducido  
+
+           while(obj.Next()) %por cada caractér
+               if(obj.Letter<0)
+                   continue;
                end
-               %encontrar la letra que corresponde en el alfabeto
-               %reducido y obtener la posición en base cero
-               letter=obj.LanguageDefinition.indexOf(letter)-1;
-               letter=letter+key; %agregar el desplazamiento de la llave de cifrado
-               letter=mod(letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
-               letter=obj.LanguageDefinition.Alphabet(letter+1).Letter; %obtener la letra en la nueva posición del alfabeto cifrado base 1
-               rText=append(rText,letter); %agregar la letra al resultado del texto cifrado
-           end      
-           rText={text,rText(1)};
+               obj.Letter=obj.Letter+obj.Key; %agregar el desplazamiento de la llave de cifrado
+               obj.Letter=mod(obj.Letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
+               obj.Letter=obj.LanguageDefinition.Alphabet(obj.Letter+1).Letter; %obtener la letra en la nueva posición del alfabeto cifrado base 1
+               obj.ResultText=append(obj.ResultText,obj.Letter); %agregar la letra al resultado del texto cifrado
+           end 
        end     
    end
 end
