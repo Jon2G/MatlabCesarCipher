@@ -5,10 +5,10 @@ disp(lm.Languages);
 reader=FileReader('./Cosmografia.txt');
 lang=lm.Languages(2);
 value=reader.readFileAndFilter(lang);
-cesar=CesarCipher(lang);
-value=cesar.cipher(value,777);
+cesar=Vigenere(lang);
+value=cesar.cipher(value,'ABBA');
 disp(value);
-value=cesar.decipher(value,777);
+value=cesar.decipher(value,'ABBA');
 disp(value);
 
 %Notas

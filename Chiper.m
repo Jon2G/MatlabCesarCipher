@@ -7,9 +7,41 @@ classdef (Abstract) Chiper< handle
        %incluyendo la Ñ  y el espacio
        LanguageDefinition;
    end
-    
-    methods
+   properties (Abstract)
+       IsNumeric,
+       IsText,
+   end
 
+   methods (Abstract)
+       rText=normalizedCipher(obj,text,key);
+   end
+
+    methods
+       %Funcion para cifrar texto
+       %obj = instancia de esta clase
+       %plainText = texto a cifrar
+       %offsetKey = llave de desplazamiento para el cifrado
+       %filterSpecialChars (true/false) = filtrar caracteres especiales del
+       %texto y utilizar alfabeto reducido (false) ó todo el conjunto de
+       %caracteres ASCII (true)
+       function cipherText = cipher(obj,plainText,offsetKey)
+           cipherText=obj.normalizedCipher(plainText,offsetKey);
+       end
+
+       %Funcion para descifrar texto
+       %obj = instancia de esta clase
+       %cipherText = texto a descifrar
+       %offsetKey = llave de desplazamiento para el cifrado
+       %filterSpecialChars (true/false) = filtrar caracteres especiales del
+       %texto y utilizar alfabeto reducido (false) ó todo el conjunto de
+       %caracteres ASCII (true)
+       function plainText=decipher(obj,cipherText,offsetKey)
+           %la llave de cifrado debe ser negativa para el descifrado
+           invertedOffset=-1*offsetKey;
+           %si se utilizará el alfabeto reducido llamar a normalizedCipher
+           plainText=obj.normalizedCipher(cipherText,invertedOffset);
+       end
+       
         function obj=Chiper(languageDefinition)
             obj.LanguageDefinition=languageDefinition;
         end
