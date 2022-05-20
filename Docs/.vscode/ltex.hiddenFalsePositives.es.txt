@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QFormalmente el cifrado de Vigenère se puede expresar de la siguiente manera.\\E$"}
