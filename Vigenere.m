@@ -10,6 +10,10 @@ classdef Vigenere < Chiper
             obj@Chiper(languageDefinition); 
         end
 
+        function nkey=validateKey(obj,key)
+            nkey=normalizateKey(obj,key);
+        end
+
         function key=getKeyVector(obj,text)
             if(iscell(text)) %si el texto es una celda
                 text=text{1};
@@ -39,9 +43,6 @@ classdef Vigenere < Chiper
            key_size=size(obj.Key,2);
            ASCII_LENGHT=size(obj.LanguageDefinition.Alphabet,2); % Tamaño del alfabeto reducido  
            while(obj.Next()) %por cada caractér
-               if(obj.Letter<0)
-                   continue;
-               end
                if(key_index>key_size)
                    key_index=1;
                end
@@ -49,7 +50,7 @@ classdef Vigenere < Chiper
                key_index=key_index+1;
                obj.Letter=obj.Letter+key_value; %agregar el desplazamiento de la llave de cifrado
                obj.Letter=mod(obj.Letter,ASCII_LENGHT); %modulo del valor de la letra y el tamaño del diccionario
-               obj.Letter=obj.LanguageDefinition.Alphabet(obj.Letter+1).Letter; %obtener la letra en la nueva posición del alfabeto cifrado base 1
+               obj.Letter=obj.LanguageDefinition.Alphabet(obj.Letter+1).GetLetter(1); %obtener la letra en la nueva posición del alfabeto cifrado base 1
                obj.ResultText=append(obj.ResultText,obj.Letter); %agregar la letra al resultado del texto cifrado
            end
         end

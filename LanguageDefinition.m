@@ -9,6 +9,29 @@ classdef LanguageDefinition < handle
     end
     
     methods
+
+        function lsize=GetAlphabetSize(obj)
+            lsize=size(obj.Alphabet,2);
+        end
+
+        function mergeCharsToMatch(obj,n)
+            toMerge=(obj.GetAlphabetSize()-n);
+             halfIndex=uint8(obj.GetAlphabetSize()/2);
+            for i=1:toMerge
+                charA=obj.getCharacterAt(halfIndex);
+                while(charA.GetSize()>=2)
+                    halfIndex=halfIndex+1;
+                    charA=obj.getCharacterAt(halfIndex);
+                end
+                charB=obj.getCharacterAt(halfIndex+1);
+                charA.merge(charB); 
+                charB.merge(charA);
+                halfIndex=halfIndex+2;
+                %obj.Alphabet(halfIndex+1)=[];
+            end
+            obj.Reindex();
+        end
+
         function obj = LanguageDefinition(index,name,alphabet)
             %LANGUAGE Construct an instance of this class
             %   Detailed explanation goes here
@@ -80,11 +103,18 @@ classdef LanguageDefinition < handle
             return; %Salida de la función
         end
 
-        function i=indexOf(obj,letter)
-            for i=1:size(obj.Alphabet,2)
+        function i=indexOf(obj,letter,strictCompare)
+            if ~exist('strictCompare','var')
+                strictCompare=false;
+            end
+
+            for i=1:obj.GetAlphabetSize()
                 char=obj.getCharacterAt(i);
-                if(char.Letter==letter)
+
+                if(strictCompare && char.GetLetter(1)==letter)
                     return;
+                elseif(~strictCompare && char.isLetter(letter))
+                        return;
                 end
             end
             i=-1;
@@ -94,7 +124,7 @@ classdef LanguageDefinition < handle
             path="./DB/"+obj.Name;
             file=FileWriter(path);
             file.Clear();
-            for i=1:size(obj.Alphabet,2)
+            for i=1:obj.GetAlphabetSize()
                 letter=obj.getCharacterAt(i);               
                 file.writeChar(letter.Letter);
                 file.writeChar('@');
@@ -110,13 +140,14 @@ classdef LanguageDefinition < handle
         end
 
         function Reindex(obj)
-            for i=1:size(obj.Alphabet,2)
+            for i=1:obj.GetAlphabetSize()
                 char=obj.getCharacterAt(i);
                 char.Index=i;
             end
         end
 
         function char=getCharacterAt(obj,index)
+            index=uint8(index);
             if(iscell(obj.Alphabet))
                  char=obj.Alphabet{index};
                  return;
@@ -125,14 +156,14 @@ classdef LanguageDefinition < handle
         end
 
         function plotData=FrequencyPlot(obj)
-            length=size(obj.Alphabet,2);
+            length=obj.GetAlphabetSize();
             x=zeros(1,length,'single');
             xtick=cell(1,length);
             y=zeros(1,length,'double');
             for i=1:length
                 char=obj.getCharacterAt(i);
                 y(i)=char.StandardFrecuency/100;
-                xtick{i}=char.Letter;
+                xtick{i}=char.GetLetter(1);
                 x(i)=i;
             end
             plotData=PlotData(x,y);

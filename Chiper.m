@@ -21,10 +21,25 @@ classdef (Abstract) Chiper< handle
 
    methods (Abstract)
        normalizedCipher(obj);
+       validateKey(obj,key);
    end
 
     methods
 
+        function nkey=normalizateKey(obj,key)
+            for i=1:size(key,2)
+                letter=key(i); %obtener el caractér en la posición i
+                letter=obj.LanguageDefinition.normalizeChar(letter);% normalizar el texto (puede que no este normalizado)
+                if(letter<=0)
+                     msgbox("La llave de cifrado no es valida caractér no valido:["+key(i)+"]","Error","error","modal");
+                     nkey='';
+                     return;
+                end
+                key(i)=letter;
+            end
+            nkey=key;
+        end
+        
         function reset(obj,text,key,encrypting)
             if(iscell(text))
                 rText='';
@@ -44,25 +59,37 @@ classdef (Abstract) Chiper< handle
         end
 
         function has_next=Next(obj)         
-            if(obj.ReadIndex<=size(obj.BaseText,2))
-                has_next=true;
-                obj.Letter=obj.BaseText(obj.ReadIndex); %obtener el caractér en la posición ReadIndex
-                if(obj.Encrypting) %si se esta cifrando el offset es positivo
-                   obj.Letter=obj.LanguageDefinition.normalizeChar(obj.Letter); % normalizar el texto (puede que no este normalizado)
-                   if(obj.Letter<=0)
-                       obj.BaseText(obj.ReadIndex)=[];
-                       obj.Letter=-1;
-                       return;
-                   end
-                   obj.BaseText(obj.ReadIndex)=obj.Letter;
-                end
-                obj.ReadIndex=obj.ReadIndex+1;
-                %encontrar la letra que corresponde en el alfabeto
-                %reducido y obtener la posición en base cero
-                obj.Letter=obj.LanguageDefinition.indexOf(obj.Letter)-1;
+            if(obj.ReadIndex>size(obj.BaseText,2))
+                has_next=false;
                 return;
             end
-            has_next=false;      
+             has_next=true;
+            obj.Letter=obj.BaseText(obj.ReadIndex); %obtener el caractér en la posición ReadIndex
+            if(obj.Encrypting) %si se esta cifrando el offset es positivo
+                obj.Letter=obj.LanguageDefinition.normalizeChar(obj.Letter); % normalizar el texto (puede que no este normalizado)
+                if(obj.Letter<=0)
+                    obj.BaseText(obj.ReadIndex)=[];
+                    obj.Letter=-1;
+                    has_next=obj.Next(obj);   
+                    return;
+                end
+                obj.BaseText(obj.ReadIndex)=obj.Letter;
+            end
+            obj.ReadIndex=obj.ReadIndex+1;
+            %encontrar la letra que corresponde en el alfabeto
+            %reducido y obtener la posición en base cero
+            obj.Letter=obj.LanguageDefinition.indexOf(obj.Letter)-1;
+            return;
+        end
+
+        function canGoBack=Previous(obj)
+            if(obj.ReadIndex<=1)
+                canGoBack=false;
+                return;
+            end
+            obj.ReadIndex=obj.ReadIndex-1;
+            obj.Letter=obj.BaseText(obj.ReadIndex);
+            canGoBack=true;
         end
 
        %Funcion para cifrar texto
@@ -101,7 +128,7 @@ classdef (Abstract) Chiper< handle
            %Copiar todos los caracteres del alfabeto en un nuevo arreglo
            for i=1:LENGHT
                character=obj.LanguageDefinition.Alphabet(i);
-               character=LanguageCharacter(i,character.Letter,0);
+               character=LanguageCharacter(i,character.GetLetter(1),0);
                character.Count=0;
                Map=[Map;character];
            end
@@ -133,7 +160,7 @@ classdef (Abstract) Chiper< handle
                Map(i).StandardFrecuency=Map(i).Count/textLenght; %calcular la frecuencia de cada letra del alfabeto
                y(i)=Map(i).StandardFrecuency; %guardar la frecuencua en y
                x(i)=i; %guardar la posicion en x
-               xtick{i}=Map(i).Letter; % caracter de la letra
+               xtick{i}=Map(i).GetLetter(1); % caracter de la letra
            end
            plotData=PlotData(x,y);
            plotData.XTickLabels=xtick;

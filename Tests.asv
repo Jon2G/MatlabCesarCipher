@@ -1,0 +1,58 @@
+classdef Tests < matlab.unittest.TestCase
+
+    properties
+        lm,lang
+    end
+    methods(TestClassSetup)
+        function setup(obj)
+            obj.lm=LanguagesManager();
+            obj.lang=obj.lm.Languages(2);
+        end
+
+    end
+
+    methods(TestMethodSetup)
+        % Setup for each test
+    end
+
+    methods(Test)
+        % Test methods
+
+        function vigenere(obj)
+            cipher=Vigenere(obj.lang);
+            plainText=obj.readText();
+            cipher.cipher(plainText,"ABBA");
+            cipherText=cipher.ResultText;
+            obj.verifyNotEqual(plainText,cipherText);
+            cipher.decipher(cipher.ResultText,"ABBA");
+            unCiphed=cipher.ResultText;
+            obj.verifyEqual(unCiphed,unCiphed);
+        end
+        
+        function cesar(obj)
+            cipher=Cesar(obj.lang);
+            plainText=obj.readText();
+            cipher.cipher(plainText,"ABBA");
+            cipherText=cipher.ResultText;
+            obj.verifyNotEqual(plainText,cipherText);
+            cipher.decipher(cipher.ResultText,"ABBA");
+            unCiphed=cipher.ResultText;
+            obj.verifyEqual(unCiphed,unCiphed);
+        end
+
+        function text=readText(obj)
+            reader=FileReader('./Cosmografia.txt');
+            text=reader.readFileAndFilter(obj.lang); 
+        end
+    end
+
+end
+
+%Notas
+%arreglo =[];
+%arreglo=[arreglo,'Nuevo item'];
+%play fair
+%Cifrado de hill matrices inversas
+%reportr 
+% que es el cesar, pa que se usa el algebra modular,es para que tju lo
+% entiendas no el profesor000
