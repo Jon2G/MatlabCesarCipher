@@ -56,7 +56,12 @@ classdef PlayFair < Chiper
                 coordAlphabet=[coordAlphabet,CoordCharacter(character,obj.Key)];
             end
             obj.LanguageDefinition.Alphabet=coordAlphabet;
-            obj.NeutralChar=obj.LanguageDefinition.getCharacterAt(obj.LanguageDefinition.GetAlphabetSize());
+            if(obj.LanguageDefinition.Name=="ENGLISH")
+                obj.NeutralChar=obj.LanguageDefinition.getCharacterAt(24);
+            elseif(obj.LanguageDefinition.Name=="ESPAÑOL")
+                obj.NeutralChar=obj.LanguageDefinition.getCharacterAt(25);
+            end
+            
         end
 
         %Función para cifrar el texto utilizando el alfabeto reducido
@@ -82,6 +87,10 @@ classdef PlayFair < Chiper
                if(charA.isEqualTo(charB))
                    Digrams{i}=Digram(charA,obj.NeutralChar);
                    i=i+1;
+                   if(obj.ReadIndex>=obj.BaseTextSize)
+                       disp('a');
+                       break;
+                   end
                    obj.Previous();
                    continue;
                end               

@@ -6,11 +6,11 @@ classdef Tests < matlab.unittest.TestCase
     methods(TestClassSetup)
         function setup(obj)
             obj.lm=LanguagesManager();
-            obj.lang=obj.lm.Languages(2);
+            obj.lang=obj.lm.Languages(1);
         end
         function readText(obj)
             reader=FileReader('./Cosmografia.txt');
-            obj.plainText="HOLA";%reader.readFileAndFilter(obj.lang); 
+            obj.plainText=reader.readFileAndFilter(obj.lang); %"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         end
     end
 
@@ -28,7 +28,7 @@ classdef Tests < matlab.unittest.TestCase
             obj.verifyNotEqual(obj.plainText,cipherText);
             cipher.decipher(cipher.ResultText,"ABBA");
             unCiphed=cipher.ResultText;
-            obj.verifyEqual(unCiphed,unCiphed);
+            obj.verifyEqual(unCiphed,obj.plainText);
         end
         
         function cesar(obj)
@@ -38,7 +38,7 @@ classdef Tests < matlab.unittest.TestCase
             obj.verifyNotEqual(obj.plainText,cipherText);
             cipher.decipher(cipher.ResultText,7);
             unCiphed=cipher.ResultText;
-            obj.verifyEqual(unCiphed,unCiphed);
+            obj.verifyEqual(unCiphed,obj.plainText);
         end
 
         function playFair(obj)
@@ -48,7 +48,7 @@ classdef Tests < matlab.unittest.TestCase
             obj.verifyNotEqual(obj.plainText,cipherText);
             cipher.decipher(cipher.ResultText,"PLAYFAIR");
             unCiphed=cipher.ResultText;
-            obj.verifyEqual(unCiphed,unCiphed);
+            obj.verifyEqual(unCiphed,obj.plainText);
         end        
     end
 

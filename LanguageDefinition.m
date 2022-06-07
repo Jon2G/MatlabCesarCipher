@@ -16,18 +16,18 @@ classdef LanguageDefinition < handle
 
         function mergeCharsToMatch(obj,n)
             toMerge=(obj.GetAlphabetSize()-n);
-             halfIndex=uint8(obj.GetAlphabetSize()/2);
-            for i=1:toMerge
-                charA=obj.getCharacterAt(halfIndex);
-                while(charA.GetSize()>=2)
-                    halfIndex=halfIndex+1;
-                    charA=obj.getCharacterAt(halfIndex);
-                end
-                charB=obj.getCharacterAt(halfIndex+1);
+            if(toMerge>=1)
+                charA=obj.getCharacterAt(9);
+                charB=obj.getCharacterAt(10);
                 charA.merge(charB); 
                 charB.merge(charA);
-                halfIndex=halfIndex+2;
-                %obj.Alphabet(halfIndex+1)=[];
+            end
+            
+            if(toMerge>=2)
+                charA=obj.getCharacterAt(14);
+                charB=obj.getCharacterAt(15);
+                charA.merge(charB); 
+                charB.merge(charA);
             end
             obj.Reindex();
         end

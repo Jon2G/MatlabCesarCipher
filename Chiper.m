@@ -7,6 +7,7 @@ classdef (Abstract) Chiper< handle
        %incluyendo la Ñ  y el espacio
        LanguageDefinition;
        BaseText;
+       BaseTextSize;
        ResultText;
        ReadIndex;
        Key;
@@ -52,6 +53,7 @@ classdef (Abstract) Chiper< handle
             end
             text=convertStringsToChars(text); %convierte la cadena de texto a un arreglo de caracterés iterable
             obj.BaseText=text;
+            obj.BaseTextSize=size(obj.BaseText,2);
             obj.ResultText="";
             obj.Key=key;
             obj.ReadIndex=1;
@@ -59,7 +61,7 @@ classdef (Abstract) Chiper< handle
         end
 
         function has_next=Next(obj)         
-            if(obj.ReadIndex>size(obj.BaseText,2))
+            if(obj.ReadIndex>obj.BaseTextSize)
                 has_next=false;
                 return;
             end
