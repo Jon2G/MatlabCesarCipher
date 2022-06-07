@@ -1,0 +1,368 @@
+\documentclass[10pt]{article}
+
+%%%%%%%% PREÁMBULO %%%%%%%%%%%%
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage{multirow} % para las tablas
+\usepackage{makecell}
+\usepackage{tcolorbox}
+\tcbuselibrary{listingsutf8}
+\usepackage[spanish]{babel}
+\usepackage{fancybox}
+\usepackage{courier}
+\usepackage{ragged2e}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsbsy} % simbolitos
+\usepackage{upgreek} % para poner letras griegas sin cursiva
+\usepackage{cancel} % para tachar
+\usepackage{mathdots} % para el comando \iddots
+\usepackage{mathrsfs} % para formato de letra
+\usepackage{stackrel} % para el comando \stackbin
+\usepackage{courier}
+\usepackage{subfig}
+\usepackage{pdflscape}
+\title{Plantilla Tesis SEPI ESIME}
+\usepackage[spanish]{babel} %Indica que escribiermos en español
+\usepackage[utf8]{inputenc} %Indica qué codificación se está usando ISO-8859-1(latin1)  o utf8  
+\usepackage{amsmath} % Comandos extras para matemáticas (cajas para ecuaciones, etc)
+\usepackage{amssymb} % Simbolos matematicos (por lo tanto)
+\usepackage{graphicx} % Incluir imágenes en LaTeX
+\graphicspath{{./../imgs/}}
+\usepackage{color} % Para colorear texto
+%\usepackage{subfigure} % subfiguras
+\usepackage{float} %Podemos usar el especificador [H] en las figuras para que se queden donde queramos
+\usepackage{capt-of} % Permite usar etiquetas fuera de elementos flotantes (etiquetas de figuras)
+\usepackage{sidecap} % Para poner el texto de las imágenes al lado
+\sidecaptionvpos{figure}{c} % Para que el texto se alinie al centro vertical
+\usepackage{caption} % Para poder quitar numeracion de figuras
+\usepackage{commath} % funcionalidades extras para diferenciales, integrales, etc (\od, \dif, etc)
+\usepackage{cancel} % para cancelar expresiones (\cancelto{0}{x})
+\usepackage[export]{adjustbox}
+\usepackage{anysize} % Para personalizar el ancho de  los márgenes
+\marginsize{2cm}{2cm}{2cm}{2cm} % Izquierda, derecha, arriba, abajo
+
+\usepackage{appendix} 
+\renewcommand{\appendixname}{Apéndices}
+\renewcommand{\appendixtocname}{Apéndices}
+\renewcommand{\appendixpagename}{Apéndices} 
+
+% Para que las referencias sean hipervínculos a las figuras o ecuaciones y aparezcan en color
+\usepackage[colorlinks=true,plainpages=true,citecolor=blue,linkcolor=blue]{hyperref}
+%\usepackage{hyperref}
+%Para agregar encabezado y pie de página
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize ESIME Culhuacan} %encabezado izquierda
+\fancyhead[R]{\footnotesize IPN}   % dereecha
+\fancyfoot[R]{\footnotesize E.S.I.M.E }  % Pie derecha
+\fancyfoot[C]{\thepage}  % centro
+\fancyfoot[L]{\footnotesize MISTI}  %izquierda
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{listings} % Para usar código fuente
+\definecolor{dkgreen}{rgb}{0,0.6,0} % Definimos colores para usar en el código
+\definecolor{gray}{rgb}{0.5,0.5,0.5} 
+
+% configuración para el lenguaje que queramos utilizar
+\usepackage[framed,numbered,autolinebreaks,useliterate]{./../mcode/mcode}
+
+\newcommand{\sen}{\operatorname{\sen}}	% Definimos el comando \sen para el seno en español
+
+
+\usepackage{longtable}
+%%%%%%%% TERMINA PREÁMBULO %%%%%%%%%%%%
+
+\begin{document}
+\nocite{IEEEreferencias:Ref1}
+\nocite{IEEEreferencias:Ref2}
+\nocite{IEEEreferencias:Ref3}
+\nocite{IEEEreferencias:Ref4}
+\nocite{IEEEreferencias:Ref5}
+\nocite{IEEEreferencias:Ref6}
+\nocite{IEEEreferencias:Ref7}
+
+\input{Portada.tex}
+\cleardoublepage
+
+
+\newpage																		
+\tableofcontents 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RESUMEN
+\newpage
+\section{Objetivo.}
+
+\begin{enumerate}
+  \item Implementar el cifrado Play Fair en matlab
+  \item Crear una interfaz de usuario para hacer uso del cifrado
+  \item Generar los histogramas del texto cifrado, texto plano y del idioma
+\end{enumerate}
+
+  \begin{center}
+    \begin{tabular}{ | l | l |}
+      \hline
+      \thead{\textbf{Equipo necesario}} & \thead{\textbf{Material necesario}}  \\
+      \hline
+      \makecell[l]{Computadora con el Software Matlab.}&  
+			\makecell[l]{Apuntes y conocimientos teóricos sobre el cifrado de Vigenère}  \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+\section{Marco teórico}\index{Introducción o Marco teórico}
+\subsection{Playfair y  de Wheatstone}
+\justify
+
+Este método lleva por nombre Playfair ya que fue el que se lo presentó a las autoridades inglesas, aunque el verdadero inventor del método fue su amigo el físico Charles Wheatstone, que lo creó para realizar comunicaciones
+telegráficas secretas en el año 1854, y se utilizó durante la Primera Guerra Mundial.
+Charles Wheatstone fue un inventor y científico inglés del siglo XIX muy conocido por el aparato eléctrico que
+lleva su nombre, el puente de Wheatstone, que sirve para medir la resistencia eléctrica.
+El método usa una matriz alfabética 5¥5 donde se incluyen las letras del alfabeto inglés (25 de las 26 letras).
+En castellano el alfabeto tiene 27 letras, por tanto adaptaremos dicha tabla haciendo que las letras N y Ñ, y las
+letras V y W ocupen la misma celda dentro de la tabla.
+
+\begin{figure}[h]
+  \centering
+  \subfloat[\centering Charles Wheatstone]{{\includegraphics[width=5cm]{charles.jpg} }}
+  \qquad
+  \subfloat[\centering Lyon Playfair]{{\includegraphics[width=5cm]{playFair.jpg} }}
+  \caption{Los amigos Wheatstone y Playfair}
+  \label{fig:example}%
+\end{figure}
+\newpage
+
+\subsection{Cifrado}
+El método de cifrado de Playfair es un método de sustitución que cifra pares de caracteres o letras, mediante
+una tabla
+\begin{figure}[h]
+  \centering
+  \includegraphics[height=3cm]{playfairKey}
+\end{figure}
+
+El método de cifrado trabaja con dos caracteres
+(bigrama) a la vez, por lo que el texto en claro se
+debe descomponer en parejas de dos caracteres.\\
+Cada una de las parejas de caracteres obtenidas
+después de la descomposición se sustituye por otra
+conforme a las siguientes reglas:\\
+Para efectuar el cifrado se siguen las siguientes
+reglas:
+\begin{enumerate}
+  \item Si el par de letras a cifrar están situadas en
+  filas y columnas diferentes, se forma el
+  rectángulo que tiene como vértices
+  opuestos las dos letras. Las letras de los
+  otros dos vértices forman el texto cifrado,
+  ordenadas por filas de la misma forma que
+  en el texto claro. Es decir que se pone
+  antes en el texto cifrado la letra que se
+  encuentra en la misma fila que la primera
+  letra del texto claro. Por ejemplo, con la
+  tabla anterior al par li le corresponde FA y
+  al par zo le corresponde YB.
+  \item Si ambas letras se encuentran en la misma
+  fila, se sustituyen por las que se 
+  encuentran en la misma fila a su derecha.
+  Si alguna de ellas está en la última
+  columna se sustituye por la letra de la
+  misma fila en la primera columna. Por
+  ejemplo ic se cifraría como TA y od como
+  BN
+  \item Igualmente, si están en la misma columna,
+  se cifran mediante las letras que se
+  encuentran justamente debajo de ellas. Si
+  alguna está en la quinta fila, por la de la
+  primera.  
+\end{enumerate}
+
+No se pueden cifrar pares compuestos por
+letras iguales. La solución es procurar que no
+suceda esto por ejemplo introduciendo una
+letra con valor nulo entre los dos iguales. Si el
+número de letras a cifrar es impar, se le añade
+un carácter de relleno
+
+\subsection{Entropia}
+\justify
+La entropía es un concepto valioso cuando se piensa en hacer 
+criptoanálisis dado que representa la medida promedio de 
+información que tiene un símbolo en algún mensaje, de hecho se 
+puede pensar en calcular la entropía para cierto lenguaje 
+(español, inglés, etc.) y es curioso saber que la entropía de cada 
+lenguaje tiende a cierto valor característico.
+La cantidad de información de un símbolo B se define como:\\
+$I(B)=\log_2{\frac{1}{P(B)}}$
+\newpage
+\section{Desarrollo}
+\justify
+
+Se tienen los siguientes alfabetos con su respectiva frecuencia:\\
+\textbf{Español:}
+\begin{table}[h]
+    \begin{adjustbox}{width=\columnwidth,center}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    A & B & C & D & E & F & G & H & I & J  & K  & L  & M  & N  & Ñ  & O  & P  & Q  & R  & S  & T  & U  & V  & W  & X  & Y  & Z  \\ \hline
+    1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27\\ \hline
+    \%12.53&\%1.42&\%4.68&\%5.86&\%13.68&\%0.69&\%1.01&\%0.70&\%6.25&\%0.44&\%0.02&\%4.97&\%3.15&\%6.71&\%0.31&\%8.68&\%2.51&\%0.88&\%6.87&\%7.98&\%4.63&\%3.93&\%0.90&\%0.01&\%0.22&\%0.90&\%0.52 \\ \hline
+    \end{tabular}
+\end{adjustbox}
+    \end{table}
+
+    \begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.7\textwidth]{histogramaSpanish.png}
+      \caption{Histograma de frecuencias del idioma Español}
+      \label{fig_sim}
+    \end{figure}
+
+    \textbf{Inglés:}
+    \begin{table}[h]
+        \begin{adjustbox}{width=\columnwidth,center}
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+        \hline
+        A & B & C & D & E & F & G & H & I & J  & K  & L  & M  & N  & O  & P  & Q  & R  & S  & T  & U  & V  & W  & X  & Y  & Z  \\ \hline
+        1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 \\ \hline
+        \%8.34&\%1.54&\%2.73&\%4.14&\%12.6&\%2.03&\%1.92&\%6.11&\%6.71&\%0.23&\%0.87&\%4.24&\%2.53&\%6.80&\%7.70&\%1.66&\%0.09&\%5.68&\%6.11&\%9.37&\%2.85&\%1.06&\%2.34&\%0.20&\%2.04&\%0.06 \\ \hline
+        \end{tabular}
+    \end{adjustbox}
+        \end{table}
+        \begin{figure}[!ht]
+          \centering
+          \includegraphics[width=0.7\textwidth]{histogramaSpanish.png}
+          \caption{Histograma de frecuencias del idioma Inglés}
+          \label{fig_sim}
+        \end{figure}
+\newpage
+  \subsection{Proceso de expansión de la llave de cifrado}
+  \lstinputlisting{./../code/keyPlayFair.m}
+
+    Se toman los caracteres de la llave y se busca su representación numérica en el alfabeto:
+    \begin{table}[h!]
+      \begin{adjustbox}{width=0.3\columnwidth,center}
+        \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Llave & L  & L  & A & V  & E \\ \hline
+      Valor & 12 & 12 & 1 & 22 & 5 \\ \hline
+    \end{tabular}
+  \end{adjustbox}
+\end{table}
+\\
+Estos valores servirán como alfabeto para intercambiar los caracteres
+\begin{center}
+  \begin{table}[ht]
+    \begin{adjustbox}{width=0.4\columnwidth,center}
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    P & L & A & Y & F \\ \hline
+    I/J & R & B & C & D \\ \hline
+    E & F & G & H & K \\ \hline
+    M & N & O & Q & S \\ \hline
+    T & U & V & W & X/Z \\ \hline
+    \end{tabular}
+  \end{adjustbox}
+    \end{table}
+\end{center}
+
+
+
+
+\newpage
+
+
+\subsection{Implementación del cifrado en matlab}      
+\lstinputlisting{./../code/playFair.m}
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1\textwidth]{histogramaCiphedPlayFair.png}
+  \caption{Histograma comparativo de las frecuencias del idioma, el texto cifrado y el texto plano}
+  \label{fig_sim}
+\end{figure}
+
+\section{Resultados}
+\justify
+Interfaz de usuario mediante la cual el usuario puede introducir texto desde la interfaz o desde un archivo, ingresar una llave numérica o de texto (según sea el caso) y visualizar el resultado del texto cifrado/descifrado.
+Igualmente se permite seleccionar entre los distintos idiomas que se tienen.\\
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\textwidth]{GUI_1PF}
+  \caption{Interfaz de usuario para el cifrado}
+  \label{fig_sim}
+\end{figure}
+\\
+Interfaz donde el usuario puede comparar los histogramas de las frecuencias generadas para el idioma, texto original y texto cifrado
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_2PF}
+  \caption{Histograma comparativo de las frecuencias del idioma, el texto cifrado y el texto plano}
+  \label{fig_sim}
+\end{figure}
+\newpage
+\justify
+Interfaz donde se permite al usuario agregar/eliminar y modificar el conjunto de caracteres para cada idioma y la frecuencia de sus caracteres así como agregar/eliminar nuevos idiomas.\\
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_3}
+  \caption{Interfaz para administrar los idiomas}
+  \label{fig_sim}
+\end{figure}
+\\
+Vista individual del histograma de cada idioma
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_4}
+  \caption{Histograma del idioma}
+  \label{fig_sim}
+\end{figure}
+
+\newpage
+
+\subsection{Comparativa de histogramas con distintas claves}
+
+
+\textbf{ABCDEFGHIJKLMNÑOPRSTUVWXYZ}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1\textwidth]{PlayFairAlphabet}
+  \caption{Cifrado con la llave ABCDEFGHIJKLMNÑOPRSTUVWXYZ}
+  \label{fig_sim}
+\end{figure}
+\newpage
+\textbf{THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1\textwidth]{PlayFair_THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG}
+  \caption{Cifrado con la llave THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG}
+  \label{fig_sim}
+\end{figure}
+
+\par\vspace{\baselineskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusión}
+\justify
+Este método es también de sustitución al igual que el cifrado de César, lo único que en el método de Playfair se
+usan pares de letras o caracteres, en vez de ir de letra en letra.\\
+Asimismo, se deberían plantear cuestiones que resulten, al menos, interesantes para
+realizar como trabajos futuros.
+
+%%%%%%% Bibliografía %%%%%%%%
+\bibliographystyle{IEEEtran} 
+\addcontentsline{toc}{section}{Referencias}  
+\bibliography{IEEEabrv,IEEEreferencias} 
+%%%%%%% Bibliografía %%%%%%%%   
+
+\par\vspace{\baselineskip}
+
+
+\end{document}

@@ -41,7 +41,18 @@ classdef Character < handle
              equals=false;
         end
 
-        function isl=isLetter(obj,letter)
+        function isl=isLetter(obj,letter,strictCompare)
+            if ~exist('strictCompare','var')
+                strictCompare=false;
+            end
+            if(strictCompare)
+                if(obj.GetLetter(1)==letter)
+                    isl=1;
+                else
+                    isl=0;
+                end
+                return;
+            end
             for i=1:obj.GetSize()
                 if(obj.GetLetter(i)==letter)
                     isl=true;

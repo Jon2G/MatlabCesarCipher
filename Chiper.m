@@ -70,7 +70,7 @@ classdef (Abstract) Chiper< handle
                 if(obj.Letter<=0)
                     obj.BaseText(obj.ReadIndex)=[];
                     obj.Letter=-1;
-                    has_next=obj.Next(obj);   
+                    has_next=obj.Next();   
                     return;
                 end
                 obj.BaseText(obj.ReadIndex)=obj.Letter;

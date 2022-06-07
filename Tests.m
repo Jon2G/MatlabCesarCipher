@@ -43,10 +43,10 @@ classdef Tests < matlab.unittest.TestCase
 
         function playFair(obj)
             cipher=PlayFair(obj.lang);
-            cipher.cipher(obj.plainText,"MONEYMONEYMONEY");
+            cipher.cipher(obj.plainText,"PLAYFAIR");
             cipherText=cipher.ResultText;
             obj.verifyNotEqual(obj.plainText,cipherText);
-            cipher.decipher(cipher.ResultText,"MONEYMONEYMONEY");
+            cipher.decipher(cipher.ResultText,"PLAYFAIR");
             unCiphed=cipher.ResultText;
             obj.verifyEqual(unCiphed,unCiphed);
         end        
