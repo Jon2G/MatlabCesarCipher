@@ -71,6 +71,7 @@ classdef (Abstract) Chiper< handle
                 obj.Letter=obj.LanguageDefinition.normalizeChar(obj.Letter); % normalizar el texto (puede que no este normalizado)
                 if(obj.Letter<=0)
                     obj.BaseText(obj.ReadIndex)=[];
+                    obj.BaseTextSize=size(obj.BaseText,2);
                     obj.Letter=-1;
                     has_next=obj.Next();   
                     return;
