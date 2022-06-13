@@ -10,7 +10,7 @@ classdef Tests < matlab.unittest.TestCase
         end
         function readText(obj)
             reader=FileReader('./Cosmografia.txt');
-            obj.plainText=reader.readFileAndFilter(obj.lang); %"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            obj.plainText= 'ACT'; %reader.readFileAndFilter(obj.lang);
         end
     end
 
@@ -50,6 +50,16 @@ classdef Tests < matlab.unittest.TestCase
             unCiphed=cipher.ResultText;
             obj.verifyEqual(unCiphed,obj.plainText);
         end        
+
+        function hill(obj)
+            cipher=Hill(obj.lang);
+            cipher.cipher(obj.plainText,"BACKUP");
+            cipherText=cipher.ResultText;
+            obj.verifyNotEqual(obj.plainText,cipherText);
+            cipher.decipher(cipher.ResultText,"BACKUP");
+            unCiphed=cipher.ResultText;
+            obj.verifyEqual(unCiphed,obj.plainText);
+        end 
     end
 
 end

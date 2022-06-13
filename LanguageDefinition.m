@@ -139,10 +139,13 @@ classdef LanguageDefinition < handle
             file.Delete();
         end
 
-        function Reindex(obj)
+        function Reindex(obj,offset)
+            if ~exist('offset','var')
+                offset=0;
+            end
             for i=1:obj.GetAlphabetSize()
                 char=obj.getCharacterAt(i);
-                char.Index=i;
+                char.Index=i+offset;
             end
         end
 

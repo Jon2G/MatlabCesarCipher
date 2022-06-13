@@ -1,0 +1,304 @@
+\documentclass[10pt]{article}
+
+%%%%%%%% PREÁMBULO %%%%%%%%%%%%
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage{multirow} % para las tablas
+\usepackage{makecell}
+\usepackage{tcolorbox}
+\tcbuselibrary{listingsutf8}
+\usepackage[spanish]{babel}
+\usepackage{fancybox}
+\usepackage{courier}
+\usepackage{ragged2e}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, amsbsy} % simbolitos
+\usepackage{upgreek} % para poner letras griegas sin cursiva
+\usepackage{cancel} % para tachar
+\usepackage{mathdots} % para el comando \iddots
+\usepackage{mathrsfs} % para formato de letra
+\usepackage{stackrel} % para el comando \stackbin
+\usepackage{courier}
+\usepackage{subfig}
+\usepackage{pdflscape}
+\title{Plantilla Tesis SEPI ESIME}
+\usepackage[spanish]{babel} %Indica que escribiermos en español
+\usepackage[utf8]{inputenc} %Indica qué codificación se está usando ISO-8859-1(latin1)  o utf8  
+\usepackage{amsmath} % Comandos extras para matemáticas (cajas para ecuaciones, etc)
+\usepackage{amssymb} % Simbolos matematicos (por lo tanto)
+\usepackage{graphicx} % Incluir imágenes en LaTeX
+\graphicspath{{./../imgs/}}
+\usepackage{color} % Para colorear texto
+%\usepackage{subfigure} % subfiguras
+\usepackage{float} %Podemos usar el especificador [H] en las figuras para que se queden donde queramos
+\usepackage{capt-of} % Permite usar etiquetas fuera de elementos flotantes (etiquetas de figuras)
+\usepackage{sidecap} % Para poner el texto de las imágenes al lado
+\sidecaptionvpos{figure}{c} % Para que el texto se alinie al centro vertical
+\usepackage{caption} % Para poder quitar numeracion de figuras
+\usepackage{commath} % funcionalidades extras para diferenciales, integrales, etc (\od, \dif, etc)
+\usepackage{cancel} % para cancelar expresiones (\cancelto{0}{x})
+\usepackage[export]{adjustbox}
+\usepackage{anysize} % Para personalizar el ancho de  los márgenes
+\marginsize{2cm}{2cm}{2cm}{2cm} % Izquierda, derecha, arriba, abajo
+
+\usepackage{appendix} 
+\renewcommand{\appendixname}{Apéndices}
+\renewcommand{\appendixtocname}{Apéndices}
+\renewcommand{\appendixpagename}{Apéndices} 
+
+% Para que las referencias sean hipervínculos a las figuras o ecuaciones y aparezcan en color
+\usepackage[colorlinks=true,plainpages=true,citecolor=blue,linkcolor=blue]{hyperref}
+%\usepackage{hyperref}
+%Para agregar encabezado y pie de página
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize ESIME Culhuacan} %encabezado izquierda
+\fancyhead[R]{\footnotesize IPN}   % dereecha
+\fancyfoot[R]{\footnotesize E.S.I.M.E }  % Pie derecha
+\fancyfoot[C]{\thepage}  % centro
+\fancyfoot[L]{\footnotesize MISTI}  %izquierda
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{listings} % Para usar código fuente
+\definecolor{dkgreen}{rgb}{0,0.6,0} % Definimos colores para usar en el código
+\definecolor{gray}{rgb}{0.5,0.5,0.5} 
+
+% configuración para el lenguaje que queramos utilizar
+\usepackage[framed,numbered,autolinebreaks,useliterate]{./../mcode/mcode}
+
+\newcommand{\sen}{\operatorname{\sen}}	% Definimos el comando \sen para el seno en español
+
+
+\usepackage{longtable}
+%%%%%%%% TERMINA PREÁMBULO %%%%%%%%%%%%
+
+\begin{document}
+\nocite{IEEEreferencias:Ref1}
+\nocite{IEEEreferencias:Ref2}
+\nocite{IEEEreferencias:Ref3}
+\nocite{IEEEreferencias:Ref4}
+\nocite{IEEEreferencias:Ref5}
+\nocite{IEEEreferencias:Ref6}
+\nocite{IEEEreferencias:Ref7}
+
+\input{Portada.tex}
+\cleardoublepage
+
+
+\newpage																		
+\tableofcontents 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RESUMEN
+\newpage
+\section{Objetivo.}
+
+\begin{enumerate}
+  \item Implementar el cifrado Hill en matlab
+  \item Crear una interfaz de usuario para hacer uso del cifrado
+  \item Generar los histogramas del texto cifrado, texto plano y del idioma
+\end{enumerate}
+
+  \begin{center}
+    \begin{tabular}{ | l | l |}
+      \hline
+      \thead{\textbf{Equipo necesario}} & \thead{\textbf{Material necesario}}  \\
+      \hline
+      \makecell[l]{Computadora con el Software Matlab.}&  
+			\makecell[l]{Apuntes y conocimientos teóricos sobre el cifrado de Vigenère}  \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+\section{Marco teórico}\index{Introducción o Marco teórico}
+\subsection{Cifrado Hill}
+\justify
+
+Lester Hill propuso en 1929 su método de cifrado de
+un mensaje en la revista The American Mathematical
+Monthly. La idea es bastante sencilla, como vamos
+a exponer a continuación directamente adaptada al
+caso de imágenes digitales y con un ejemplo concreto
+que siempre se entiende mejor.
+Una imagen digital no es más que una matriz de
+números. Por ejemplo, la imagen de la figura 1 es una
+matriz de tamaño
+256 donde los niveles de gris
+de la imagen varían desde 0 correspondientes al negro
+hasta 255 correspondientes al blanco. Los números
+comprendidos entre 0 y 255 se escriben en binario con
+8 bits, por eso esta imagen necesita 1 byte por píxel.
+Usaremos una matriz secreta K solo conocida por
+emisor y receptor
+
+\subsection{Cifrado}
+
+\begin{enumerate}
+  \item Cifra el texto en claro considerando bloques de k símbolos del mismo (bigramas, trigramas, etc.).
+  \item Propone un criptosistema utilizando como clave (K) una matriz cuadrada de orden k, es decir, una matriz con el mismo número de filas (k) y de columnas (k), de tal forma que los caracteres de la clave se disponen en filas y columnas (de izquierda a derecha y de arriba a abajo), y el algoritmo de cifrado para el primer bloque de k símbolos del texto en claro sería el siguiente:
+    
+  \item Igualmente, si están en la misma columna,
+  se cifran mediante las letras que se
+  encuentran justamente debajo de ellas. Si
+  alguna está en la quinta fila, por la de la
+  primera.  
+  \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Criptografía_Cifrado de Hill.png}
+    \label{fig_sim}
+  \end{figure}
+  Donde:\\
+kij: carácter de la fila i columna j de la matriz (K) que se utilizará como clave para cifrar el texto en claro.\\
+mi: carácter i-ésimo del mensaje a cifrar o texto en claro.\\
+ci: carácter i-ésimo del mensaje cifrado o criptograma.\\
+n: tamaño del alfabeto.
+  \item Conforme a este criptosistema, la matriz K debe tener inversa K-1 mod n, que será la que se use en el descifrado del criptograma.
+\end{enumerate}
+\newpage
+\subsection{Entropia}
+\justify
+La entropía es un concepto valioso cuando se piensa en hacer 
+criptoanálisis dado que representa la medida promedio de 
+información que tiene un símbolo en algún mensaje, de hecho se 
+puede pensar en calcular la entropía para cierto lenguaje 
+(español, inglés, etc.) y es curioso saber que la entropía de cada 
+lenguaje tiende a cierto valor característico.
+La cantidad de información de un símbolo B se define como:\\
+$I(B)=\log_2{\frac{1}{P(B)}}$
+
+\section{Desarrollo}
+\justify
+
+Se tienen los siguientes alfabetos con su respectiva frecuencia:\\
+\textbf{Español:}
+\begin{table}[h]
+    \begin{adjustbox}{width=\columnwidth,center}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    A & B & C & D & E & F & G & H & I & J  & K  & L  & M  & N  & Ñ  & O  & P  & Q  & R  & S  & T  & U  & V  & W  & X  & Y  & Z  \\ \hline
+    1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27\\ \hline
+    \%12.53&\%1.42&\%4.68&\%5.86&\%13.68&\%0.69&\%1.01&\%0.70&\%6.25&\%0.44&\%0.02&\%4.97&\%3.15&\%6.71&\%0.31&\%8.68&\%2.51&\%0.88&\%6.87&\%7.98&\%4.63&\%3.93&\%0.90&\%0.01&\%0.22&\%0.90&\%0.52 \\ \hline
+    \end{tabular}
+\end{adjustbox}
+    \end{table}
+
+    \begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.6\textwidth]{histogramaSpanish.png}
+      \caption{Histograma de frecuencias del idioma Español}
+      \label{fig_sim}
+    \end{figure}
+
+    \textbf{Inglés:}
+    \begin{table}[h]
+        \begin{adjustbox}{width=\columnwidth,center}
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+        \hline
+        A & B & C & D & E & F & G & H & I & J  & K  & L  & M  & N  & O  & P  & Q  & R  & S  & T  & U  & V  & W  & X  & Y  & Z  \\ \hline
+        1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 \\ \hline
+        \%8.34&\%1.54&\%2.73&\%4.14&\%12.6&\%2.03&\%1.92&\%6.11&\%6.71&\%0.23&\%0.87&\%4.24&\%2.53&\%6.80&\%7.70&\%1.66&\%0.09&\%5.68&\%6.11&\%9.37&\%2.85&\%1.06&\%2.34&\%0.20&\%2.04&\%0.06 \\ \hline
+        \end{tabular}
+    \end{adjustbox}
+        \end{table}
+        \begin{figure}[!ht]
+          \centering
+          \includegraphics[width=0.7\textwidth]{histogramaSpanish.png}
+          \caption{Histograma de frecuencias del idioma Inglés}
+          \label{fig_sim}
+        \end{figure}
+\newpage
+  \subsection{Generación de llave de cifrado}
+  \lstinputlisting{./../code/keyHill.m}
+
+    Se toman los caracteres de la llave y se busca su representación numérica en el alfabeto:
+    \begin{table}[h!]
+      \begin{adjustbox}{width=0.3\columnwidth,center}
+        \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Llave & L  & L  & A & V  & E \\ \hline
+      Valor & 12 & 12 & 1 & 22 & 5 \\ \hline
+    \end{tabular}
+  \end{adjustbox}
+\end{table}
+\\
+Estos valores servirán como alfabeto para intercambiar los caracteres
+
+
+\newpage
+
+
+\subsection{Implementación del cifrado en matlab}      
+\lstinputlisting{./../code/hill.m}
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1\textwidth]{hillHistogram.jpg}
+  \caption{Histograma comparativo de las frecuencias del idioma, el texto cifrado y el texto plano}
+  \label{fig_sim}
+\end{figure}
+
+\section{Resultados}
+\justify
+Interfaz de usuario mediante la cual el usuario puede introducir texto desde la interfaz o desde un archivo, ingresar una llave numérica o de texto (según sea el caso) y visualizar el resultado del texto cifrado/descifrado.
+Igualmente se permite seleccionar entre los distintos idiomas que se tienen.\\
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\textwidth]{GUI_1H}
+  \caption{Interfaz de usuario para el cifrado}
+  \label{fig_sim}
+\end{figure}
+\\
+Interfaz donde el usuario puede comparar los histogramas de las frecuencias generadas para el idioma, texto original y texto cifrado
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_2PF}
+  \caption{Histograma comparativo de las frecuencias del idioma, el texto cifrado y el texto plano}
+  \label{fig_sim}
+\end{figure}
+\newpage
+\justify
+Interfaz donde se permite al usuario agregar/eliminar y modificar el conjunto de caracteres para cada idioma y la frecuencia de sus caracteres así como agregar/eliminar nuevos idiomas.\\
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_3}
+  \caption{Interfaz para administrar los idiomas}
+  \label{fig_sim}
+\end{figure}
+\\
+Vista individual del histograma de cada idioma
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{GUI_4}
+  \caption{Histograma del idioma}
+  \label{fig_sim}
+\end{figure}
+
+\newpage
+
+\par\vspace{\baselineskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusión}
+\justify
+Este método es también de sustitución al igual que el cifrado de César, lo único que en el método de Playfair se
+usan pares de letras o caracteres, en vez de ir de letra en letra.\\
+Asimismo, se deberían plantear cuestiones que resulten, al menos, interesantes para
+realizar como trabajos futuros.
+
+%%%%%%% Bibliografía %%%%%%%%
+\bibliographystyle{IEEEtran} 
+\addcontentsline{toc}{section}{Referencias}  
+\bibliography{IEEEabrv,IEEEreferencias} 
+%%%%%%% Bibliografía %%%%%%%%   
+
+\par\vspace{\baselineskip}
+
+
+\end{document}
